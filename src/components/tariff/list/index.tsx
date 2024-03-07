@@ -4,13 +4,12 @@ import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircle';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import { Alert, Button, ButtonGroup, CardContent, Grid, Typography } from '@mui/material';
 import { Box, Stack, styled, useTheme } from '@mui/system';
-import useConfig from 'hooks/useConfig';
 import { Fragment, SyntheticEvent, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
-import { Tariff, TariffPlanNames } from 'types/tariff';
 import MainCard from 'ui-component/cards/MainCard';
+import { TariffTilte } from './title';
 
 const FeatureTitleWrapper = styled(CardContent)(({ theme }) => ({
   background: theme.palette.mode === 'dark' ? `${theme.palette.background.default} !important` : `${theme.palette.grey[100]} !important`,
@@ -101,61 +100,6 @@ const planList: planListItem[] = [
   }
 ];
 
-const PlanList = ({ plan, view, priceFlag }: { plan: Tariff; view: number; priceFlag: TariffPlanNames }) => {
-  const theme = useTheme();
-  const intl = useIntl();
-  const { rtlLayout } = useConfig();
-
-  return (
-    <Grid item xs={12} sm={3} md={3} sx={{ display: 'block' }}>
-      <FeatureContentWrapper>
-        {/* {plan.popular && (
-          <PopularBadgeWrapper sx={{ transform: rtlLayout ? 'rotate(316deg)' : 'rotate(45deg)' }}>Popular</PopularBadgeWrapper>
-        )} */}
-        <Grid container spacing={gridSpacing}>
-          <Grid item xs={12}>
-            <Typography
-              variant="h6"
-              sx={{
-                textTransform: 'uppercase',
-                fontSize: '1.25rem',
-                fontWeight: 500,
-                position: 'relative',
-                color: theme.palette.primary.main
-              }}
-            >
-              {plan.name}
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Typography
-              variant="body2"
-              sx={{
-                fontSize: '1.5rem',
-                fontWeight: 700,
-                '& > span': {
-                  fontSize: '1.25rem',
-                  fontWeight: 500
-                },
-                [theme.breakpoints.down('lg')]: {
-                  fontSize: '1.25rem',
-                  '& > span': {
-                    fontSize: '1rem'
-                  }
-                }
-              }}
-            >
-              <sup>₽</sup>
-              {plan.plans[0].price}
-              <span>/{priceFlag === 'Месячный' ? intl.formatMessage({ id: 'monthly' }) : intl.formatMessage({ id: 'year' })}</span>
-            </Typography>
-          </Grid>
-        </Grid>
-      </FeatureContentWrapper>
-    </Grid>
-  );
-};
-
 const ListItem = ({ item, index, view }: { item: number; index: number; view: number }) => (
   <Grid item xs={4} sm={3} md={3} sx={{ display: view !== index + 1 ? { xs: 'none', sm: 'block' } : 'block' }}>
     {item === 1 && (
@@ -225,15 +169,9 @@ const TariffList = () => {
           </Stack>
 
           <Grid container spacing={gridSpacing}>
-            {/* <TariffTilte plans={list} /> */}
             <Grid item xs={12}>
               <MainCard content={false} sx={{ textAlign: 'center' }}>
-                <Grid container spacing={0}>
-                  <Grid item xs={12} sm={3} md={3} />
-                  {list.map((item, index) => (
-                    <PlanList plan={item} view={view} priceFlag={'Годовой'} key={index} />
-                  ))}
-                </Grid>
+                <TariffTilte plans={list} />
                 {planList.map((list, index) => (
                   <Fragment key={index}>
                     {list.type === 'group' && (
