@@ -11,7 +11,6 @@ import { useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import { Tariff, TariffPlanNames } from 'types/tariff';
 import MainCard from 'ui-component/cards/MainCard';
-import { TariffTilte } from './title';
 
 const FeatureTitleWrapper = styled(CardContent)(({ theme }) => ({
   background: theme.palette.mode === 'dark' ? `${theme.palette.background.default} !important` : `${theme.palette.grey[100]} !important`,
@@ -226,7 +225,7 @@ const TariffList = () => {
           </Stack>
 
           <Grid container spacing={gridSpacing}>
-            <TariffTilte plans={list} />
+            {/* <TariffTilte plans={list} /> */}
             <Grid item xs={12}>
               <MainCard content={false} sx={{ textAlign: 'center' }}>
                 <Grid container spacing={0}>

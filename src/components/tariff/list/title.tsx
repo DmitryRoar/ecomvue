@@ -11,6 +11,7 @@ export const TariffTilte = ({ plans }: Props) => {
   return (
     <Grid item xs={12}>
       <Card sx={{ display: { xs: 'block', sm: 'none' } }}>
+        ВФЫЛВДФЫОВЛДФЫВОФЫЛДВОФДЛ
         <CardContent>
           <ToggleButtonGroup
             orientation="vertical"

@@ -15,4 +15,4 @@ jobs:
       - name: Deploy to Server
         run: |
           set -x
-          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@94.241.171.106 'cd /home/ubuntu/client/; docker-compose down ; git config pull.rebase false ; git reset --hard HEAD ; git clean -fd ; git pull origin prod; docker-compose up -d --build ; docker image prune -a'
+          sshpass -p "${{ secrets.SSH_PASSWORD }}" ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null root@94.241.171.106 'cd /home/ubuntu/client/; docker-compose down ; git config pull.rebase false ; git reset --hard HEAD ; git clean -fd ; git pull origin main; docker-compose up -d --build ; docker image prune -a'
