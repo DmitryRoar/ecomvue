@@ -19,7 +19,7 @@ const slice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder.addCase(getAll.fulfilled, (state, action) => {
-      state.list = action.payload;
+      state.list = action.payload.sort((a: any, b: any) => parseInt(a.plans[0].price) - parseInt(b.plans[0].price));
     });
   }
 });
