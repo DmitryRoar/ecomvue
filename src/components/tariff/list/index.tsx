@@ -2,13 +2,14 @@
 
 import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircle';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { Alert, Button, ButtonGroup, CardContent, Grid, Typography } from '@mui/material';
+import { Alert, Button, ButtonGroup, CardContent, Grid } from '@mui/material';
 import { Box, Stack, styled, useTheme } from '@mui/system';
-import { Fragment, SyntheticEvent, useState } from 'react';
+import { SyntheticEvent, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import MainCard from 'ui-component/cards/MainCard';
+import { TariffFeature } from './feature';
 import { TariffTilte } from './title';
 
 const FeatureTitleWrapper = styled(CardContent)(({ theme }) => ({
@@ -172,37 +173,7 @@ const TariffList = () => {
             <Grid item xs={12}>
               <MainCard content={false} sx={{ textAlign: 'center' }}>
                 <TariffTilte plans={list} />
-                {planList.map((list, index) => (
-                  <Fragment key={index}>
-                    {list.type === 'group' && (
-                      <FeatureTitleWrapper>
-                        <Typography variant="subtitle1">{list.label}</Typography>
-                      </FeatureTitleWrapper>
-                    )}
-                    {list.type === 'list' && (
-                      <Grid
-                        container
-                        spacing={0}
-                        sx={{
-                          borderBottom: '1px solid',
-                          borderColor:
-                            theme.palette.mode === 'dark'
-                              ? `${theme.palette.background.default} !important`
-                              : `${theme.palette.grey[200]} !important`
-                        }}
-                      >
-                        <Grid item xs={8} sm={3} md={3}>
-                          <Box sx={{ px: 3, py: 1.5 }}>
-                            <Typography component="div" align="left" variant="body2">
-                              {list.label}
-                            </Typography>
-                          </Box>
-                        </Grid>
-                        {list.permission?.map((item, i) => <ListItem key={i} item={item} index={index} view={view} />)}
-                      </Grid>
-                    )}
-                  </Fragment>
-                ))}
+                <TariffFeature plans={list} />
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={3} md={3} />
                   <OrderButton view={view} index={1} />

@@ -74,8 +74,6 @@ type Props = {
 };
 
 export const TariffTilte = ({ plans }: Props) => {
-  const theme = useTheme();
-
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} sm={3} md={3} />
