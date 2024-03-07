@@ -107,7 +107,7 @@ export const TariffFeature = ({ plans }: Props) => {
               </Typography>
             </Box>
           </Grid>
-          {list?.permission?.map((item: any, i) => <ListItem key={i} item={item} view={1} />)}
+          {list?.permission?.map((item: any, i) => <ListItem key={i} item={item} />)}
         </Grid>
       )}
     </Fragment>
