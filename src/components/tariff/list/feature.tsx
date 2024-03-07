@@ -82,7 +82,7 @@ type Props = {
 
 export const TariffFeature = ({ plans }: Props) => {
   const theme = useTheme();
-
+  // plans
   return planList.map((list, index) => (
     <Fragment key={index}>
       {list.type === 'group' && (
