@@ -1,0 +1,25 @@
+name: remote ssh command
+
+on:
+  push:
+    branches: ['prod']
+
+jobs:
+  build:
+    name: SSH EXEC
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIV_KEY }}
+
+      - name: Execute remote commands
+        run: |
+          git pull origin prod
+          docker image prune
+          docker-compose down
+          docker-compose up -d --build
