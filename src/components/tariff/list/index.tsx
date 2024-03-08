@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import { TariffSlice } from 'store/slices';
 import { openSnackbar } from 'store/slices/snackbar';
-import { Organization } from 'types/organization';
 import { TariffPlan, TariffPlanNames } from 'types/tariff';
 import MainCard from 'ui-component/cards/MainCard';
 import { TariffFeatures } from './features';
@@ -78,14 +77,14 @@ const TariffList = () => {
   return (
     <MainCard title={intl.formatMessage({ id: 'tariffs' })}>
       <Grid container spacing={gridSpacing}>
-        {(organization as Organization)?.my.tariffs.length > 0 && (
+        {currentPlan && (
           <Grid item xs={12}>
             <Alert variant="outlined" severity="info" sx={{ borderColor: theme.palette.primary.main }}>
               <Stack display="flex" flexDirection="row" gap={0.5}>
                 <Typography>
                   <FormattedMessage id="your-tariff" />:
                 </Typography>
-                <Typography sx={{ fontWeight: 'bold' }}>
+                <Typography sx={{ fontWeight: 'bold', textTransform: 'uppercase' }}>
                   {list.find((t) => t.plans.find((plan) => plan.id === currentPlan))?.name}
                 </Typography>
                 <Typography sx={{ textTransform: 'lowercase' }}>
