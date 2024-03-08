@@ -2,7 +2,7 @@ import { CardContent, Grid, Typography, useTheme } from '@mui/material';
 import { styled } from '@mui/system';
 import { useIntl } from 'react-intl';
 import { gridSpacing } from 'store/constant';
-import { Tariff, TariffPlanNames } from 'types/tariff';
+import { Tariff, TariffPlan, TariffPlanNames } from 'types/tariff';
 
 const FeatureContentWrapper = styled(CardContent)(({ theme }) => ({
   borderLeft: '1px solid',
@@ -15,16 +15,18 @@ const FeatureContentWrapper = styled(CardContent)(({ theme }) => ({
   }
 }));
 
-const PlanList = ({ plan, view, priceFlag }: { plan: Tariff; view: number; priceFlag: TariffPlanNames }) => {
+type PlanProps = {
+  tariff: Tariff;
+  flag: TariffPlanNames;
+};
+
+const PlanList = ({ tariff, flag }: PlanProps) => {
   const theme = useTheme();
   const intl = useIntl();
 
   return (
     <Grid item xs={12} sm={3} md={3} sx={{ display: 'block' }}>
       <FeatureContentWrapper>
-        {/* {plan.popular && (
-          <PopularBadgeWrapper sx={{ transform: rtlLayout ? 'rotate(316deg)' : 'rotate(45deg)' }}>Popular</PopularBadgeWrapper>
-        )} */}
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
             <Typography
@@ -37,7 +39,7 @@ const PlanList = ({ plan, view, priceFlag }: { plan: Tariff; view: number; price
                 color: theme.palette.primary.main
               }}
             >
-              {plan.name}
+              {tariff.name}
             </Typography>
           </Grid>
           <Grid item xs={12}>
@@ -59,8 +61,8 @@ const PlanList = ({ plan, view, priceFlag }: { plan: Tariff; view: number; price
               }}
             >
               <sup>₽</sup>
-              {plan.plans[0].price}
-              <span>/{priceFlag === 'Месячный' ? intl.formatMessage({ id: 'monthly' }) : intl.formatMessage({ id: 'year' })}</span>
+              {(tariff.plans as any).find((plan: TariffPlan) => plan.name.includes(flag)).price}
+              <span>/{flag === 'Месячный' ? intl.formatMessage({ id: 'monthly' }) : intl.formatMessage({ id: 'year' })}</span>
             </Typography>
           </Grid>
         </Grid>
@@ -70,15 +72,16 @@ const PlanList = ({ plan, view, priceFlag }: { plan: Tariff; view: number; price
 };
 
 type Props = {
-  plans: Tariff[];
+  tariffs: Tariff[];
+  flag: TariffPlanNames;
 };
 
-export const TariffTilte = ({ plans }: Props) => {
+export const TariffTilte = ({ tariffs, flag }: Props) => {
   return (
     <Grid container spacing={0}>
       <Grid item xs={12} sm={3} md={3} />
-      {plans.map((item, index) => (
-        <PlanList plan={item} view={1} priceFlag={'Годовой'} key={index} />
+      {tariffs.map((item, index) => (
+        <PlanList tariff={item} flag={flag} key={index} />
       ))}
     </Grid>
   );

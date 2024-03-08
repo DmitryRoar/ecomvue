@@ -17,18 +17,29 @@ export type CreateFunctools = {
   previous?: string;
 };
 
+type OrganizationTariff = {
+  tariff_plan: number;
+  status: string;
+  start_date: string | null;
+  end_date: string | null;
+  created_at: string;
+};
+
 export type Organization = {
-  id: number;
-  owner: number;
-  users: {
-    user: IAuthUser;
-    user_type: UserType;
-    user_role: {
-      id: string;
-      name: string;
-      functools: OrganizationFunc[];
-    };
-  }[];
+  [key: string]: {
+    id: number;
+    owner: number;
+    users: {
+      user: IAuthUser;
+      user_type: UserType;
+      user_role: {
+        id: string;
+        name: string;
+        functools: OrganizationFunc[];
+      };
+    }[];
+    tariffs: OrganizationTariff[] | [];
+  };
 };
 
 export type OrganizationRole = {

@@ -1,23 +1,18 @@
 'use client';
 
-import CheckCircleTwoToneIcon from '@mui/icons-material/CheckCircle';
-import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
-import { Alert, Button, ButtonGroup, CardContent, Grid } from '@mui/material';
-import { Box, Stack, styled, useTheme } from '@mui/system';
-import { SyntheticEvent, useState } from 'react';
+import { Alert, Button, ButtonGroup, CardContent, Grid, Typography } from '@mui/material';
+import { Stack, styled, useTheme } from '@mui/system';
+import { useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'store';
+import { useDispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
+import { TariffSlice } from 'store/slices';
+import { openSnackbar } from 'store/slices/snackbar';
+import { Organization } from 'types/organization';
+import { TariffPlan, TariffPlanNames } from 'types/tariff';
 import MainCard from 'ui-component/cards/MainCard';
-import { TariffFeature } from './feature';
+import { TariffFeatures } from './features';
 import { TariffTilte } from './title';
-
-const FeatureTitleWrapper = styled(CardContent)(({ theme }) => ({
-  background: theme.palette.mode === 'dark' ? `${theme.palette.background.default} !important` : `${theme.palette.grey[100]} !important`,
-  textAlign: 'left',
-  paddingTop: 12,
-  paddingBottom: '12px !important'
-}));
 
 const FeatureContentWrapper = styled(CardContent)(({ theme }) => ({
   borderLeft: '1px solid',
@@ -30,96 +25,15 @@ const FeatureContentWrapper = styled(CardContent)(({ theme }) => ({
   }
 }));
 
-const PopularBadgeWrapper = styled('div')(({ theme }) => ({
-  background: theme.palette.secondary.main,
-  color: '#fff',
-  display: 'inline-block',
-  padding: '40px 40px 5px',
-  fontSize: '0.8125rem',
-  position: 'absolute',
-  top: -24,
-  right: -55
-}));
-
-type plan = {
-  name: string;
-  plans: {
-    id: number;
-    name: string;
-    price: number;
-  }[];
-  funcionals: {
-    name: string;
-    value: number;
-  }[];
+type ButtonProps = {
+  onSubmit: () => Promise<void>;
+  isPopular?: boolean;
 };
 
-type planListItem = {
-  type: string;
-  label: string;
-  permission?: number[];
-};
-
-const planList: planListItem[] = [
-  {
-    type: 'group',
-    label: 'Features'
-  },
-  {
-    type: 'list',
-    label: 'Only 1 User uses',
-    permission: [1, 1, 1]
-  },
-  {
-    type: 'list',
-    label: '10 Projects for',
-    permission: [0, 1, 1]
-  },
-  {
-    type: 'list',
-    label: 'Unlimited Bandwidth',
-    permission: [0, 0, 1]
-  },
-  {
-    type: 'list',
-    label: 'Unlimited Data',
-    permission: [0, 0, 1]
-  },
-  {
-    type: 'group',
-    label: 'Storage & Security'
-  },
-  {
-    type: 'list',
-    label: '5GB of Storage',
-    permission: [0, 1, 1]
-  },
-  {
-    type: 'list',
-    label: 'Fully Security Suite',
-    permission: [0, 0, 1]
-  }
-];
-
-const ListItem = ({ item, index, view }: { item: number; index: number; view: number }) => (
-  <Grid item xs={4} sm={3} md={3} sx={{ display: view !== index + 1 ? { xs: 'none', sm: 'block' } : 'block' }}>
-    {item === 1 && (
-      <Box sx={{ px: 3, py: 1.5 }}>
-        <CheckCircleTwoToneIcon sx={{ color: 'success.dark' }} />
-      </Box>
-    )}
-    {item === 0 && (
-      <Box sx={{ px: 3, py: 1.5 }}>
-        <RemoveRoundedIcon sx={{ opacity: '0.3' }} />
-      </Box>
-    )}
-  </Grid>
-);
-
-const OrderButton = ({ view, index, popular }: { view: number; index: number; popular?: boolean }) => (
-  <Grid item xs={12} sm={3} md={3} sx={{ display: view !== index ? { xs: 'none', sm: 'block' } : 'block' }}>
+const OrderButton = ({ onSubmit, isPopular }: ButtonProps) => (
+  <Grid item xs={12} sm={3} md={3} sx={{ display: 'block' }} onClick={onSubmit}>
     <FeatureContentWrapper>
-      <Button variant={popular ? 'contained' : 'outlined'} color={popular ? 'secondary' : 'primary'}>
+      <Button variant={isPopular ? 'contained' : 'outlined'} color={isPopular ? 'secondary' : 'primary'}>
         <FormattedMessage id="order-now" />
       </Button>
     </FeatureContentWrapper>
@@ -130,40 +44,69 @@ const TariffList = () => {
   const theme = useTheme();
   const intl = useIntl();
 
-  const [priceFlag, setPriceFlag] = useState('monthly');
+  const dispatch = useDispatch();
   const { list } = useSelector((s) => s.tariff);
-  console.log(list);
+  const { organization } = useSelector((s) => s.organization);
 
-  const [view, setView] = useState(1);
-  const handleChange = (event: SyntheticEvent, newView: number) => {
-    if (newView !== null) {
-      setView(newView);
-    }
+  const [flag, setFlag] = useState<TariffPlanNames>('Месячный');
+  const [currentPlan, setCurrentPlan] = useState<number>(organization?.my.tariffs.at(-1)?.tariff_plan as any);
+
+  const tariffs = useMemo(() => {
+    return list.filter((item) => {
+      return item.plans.some((plan) => plan.name.includes(flag));
+    });
+  }, [list, flag]);
+
+  const submitHandler = async (tariffIdx: number) => {
+    const id = (tariffs[tariffIdx].plans.find((plan: TariffPlan) => plan.name === flag) as TariffPlan).id;
+    const { tariff_plan } = await dispatch(TariffSlice.purchase(id)).unwrap();
+    setCurrentPlan(tariff_plan);
+    dispatch(
+      openSnackbar({
+        open: true,
+        message: intl.formatMessage({ id: 'success' }),
+        variant: 'alert',
+        anchorOrigin: { vertical: 'top', horizontal: 'center' },
+        close: false,
+        alert: {
+          color: 'success'
+        }
+      })
+    );
   };
 
   return (
     <MainCard title={intl.formatMessage({ id: 'tariffs' })}>
       <Grid container spacing={gridSpacing}>
-        <Grid item xs={12}>
-          <Alert variant="outlined" severity="info" sx={{ borderColor: theme.palette.primary.main }}>
-            This is an info alert — check it out!
-          </Alert>
-        </Grid>
+        {(organization as Organization)?.my.tariffs.length > 0 && (
+          <Grid item xs={12}>
+            <Alert variant="outlined" severity="info" sx={{ borderColor: theme.palette.primary.main }}>
+              <Stack display="flex" flexDirection="row" gap={0.5}>
+                <Typography>
+                  <FormattedMessage id="your-tariff" />:
+                </Typography>
+                <Typography sx={{ fontWeight: 'bold' }}>
+                  {list.find((t) => t.plans.find((plan) => plan.id === currentPlan))?.name}
+                </Typography>
+                <Typography sx={{ textTransform: 'lowercase' }}>
+                  <FormattedMessage id="will-expire-soon" />
+                </Typography>
+              </Stack>
+            </Alert>
+          </Grid>
+        )}
+
         <Grid item sx={{ width: '100%' }}>
           <Stack direction="row" justifyContent="center">
-            <ButtonGroup disableElevation variant="contained" sx={{ mb: 3 }}>
+            <ButtonGroup disableElevation variant="contained" sx={{ mb: 3, paddingLeft: gridSpacing }}>
               <Button
                 size="large"
-                sx={{ bgcolor: priceFlag === 'monthly' ? 'primary.main' : 'primary.200' }}
-                onClick={() => setPriceFlag('monthly')}
+                sx={{ bgcolor: flag === 'Месячный' ? 'primary.main' : 'primary.200' }}
+                onClick={() => setFlag('Месячный')}
               >
                 <FormattedMessage id="monthly" />
               </Button>
-              <Button
-                size="large"
-                sx={{ bgcolor: priceFlag === 'yearly' ? 'primary.main' : 'primary.200' }}
-                onClick={() => setPriceFlag('yearly')}
-              >
+              <Button size="large" sx={{ bgcolor: flag === 'Годовой' ? 'primary.main' : 'primary.200' }} onClick={() => setFlag('Годовой')}>
                 <FormattedMessage id="year" />
               </Button>
             </ButtonGroup>
@@ -172,13 +115,13 @@ const TariffList = () => {
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
               <MainCard content={false} sx={{ textAlign: 'center' }}>
-                <TariffTilte plans={list} />
-                <TariffFeature plans={list} />
+                <TariffTilte tariffs={tariffs} flag={flag} />
+                <TariffFeatures tariffs={tariffs} />
                 <Grid container spacing={0}>
                   <Grid item xs={12} sm={3} md={3} />
-                  <OrderButton view={view} index={1} />
-                  <OrderButton view={view} index={2} popular />
-                  <OrderButton view={view} index={3} />
+                  <OrderButton onSubmit={() => submitHandler(0)} />
+                  <OrderButton onSubmit={() => submitHandler(1)} isPopular />
+                  <OrderButton onSubmit={() => submitHandler(2)} />
                 </Grid>
               </MainCard>
             </Grid>

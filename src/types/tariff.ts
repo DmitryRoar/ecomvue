@@ -1,16 +1,18 @@
 export type TariffPlanNames = 'Месячный' | 'Годовой';
 
+export type TariffPlan = {
+  id: number;
+  name: TariffPlanNames;
+  price: string;
+};
+
 export type Tariff = {
   name: string;
   funcionals: {
     name: string;
     value: string;
   }[];
-  plans: {
-    id: number;
-    name: string;
-    price: TariffPlanNames;
-  }[];
+  plans: TariffPlan[];
 };
 
 export type TariffProps = {
