@@ -2,7 +2,7 @@
 
 import { Alert, Button, ButtonGroup, CardContent, Grid, Typography } from '@mui/material';
 import { Stack, styled, useTheme } from '@mui/system';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
@@ -48,13 +48,17 @@ const TariffList = () => {
   const { organization } = useSelector((s) => s.organization);
 
   const [flag, setFlag] = useState<TariffPlanNames>('Месячный');
-  const [currentPlan, setCurrentPlan] = useState<number>(organization?.my.tariffs.at(-1)?.tariff_plan as any);
+  const [currentPlan, setCurrentPlan] = useState<number>(0);
 
   const tariffs = useMemo(() => {
     return list.filter((item) => {
       return item.plans.some((plan) => plan.name.includes(flag));
     });
   }, [list, flag]);
+
+  useEffect(() => {
+    setCurrentPlan(organization?.my.tariffs.at(-1)?.tariff_plan as number);
+  }, [organization]);
 
   const submitHandler = async (tariffIdx: number) => {
     const id = (tariffs[tariffIdx].plans.find((plan: TariffPlan) => plan.name === flag) as TariffPlan).id;

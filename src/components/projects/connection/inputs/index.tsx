@@ -132,7 +132,7 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
 
   const purchaseTariffHandler = async () => {
     try {
-      await dispatch<any>(TariffSlice.purchase(1)).unwrap();
+      await dispatch<any>(TariffSlice.purchase(5)).unwrap();
       dispatch(
         openSnackbar({
           open: true,
