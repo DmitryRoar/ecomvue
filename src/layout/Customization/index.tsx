@@ -39,7 +39,7 @@ function CustomTabPanel(props: TabPanelProps) {
     <div role="tabpanel" hidden={value !== index} id={`simple-tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`} {...other}>
       {value === index && (
         <Box>
-          <Typography>{children}</Typography>
+          <Box>{children}</Box>
         </Box>
       )}
     </div>
@@ -89,7 +89,7 @@ const Customization = () => {
                 </Stack>
               </Stack>
               <Divider />
-              <Box sx={{ width: '100%' }}>
+              <Box sx={{ width: '100%', background: 'green' }}>
                 <Tabs
                   value={value}
                   sx={{
