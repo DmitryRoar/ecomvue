@@ -252,7 +252,7 @@ const Users = () => {
 
   useEffect(() => {
     if (data) {
-      setRows(data.my.users);
+      setRows(data.users || []);
       setLoading(false);
     }
   }, [data]);

@@ -81,6 +81,7 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
   const submitHandler = async () => {
     try {
       if (CoreUtils.areAllFieldsFilled(value.project) && CoreUtils.areAllFieldsFilled(value.connection)) {
+        // eslint-disable-next-line
         const { id } = await dispatch(MarketplaceSlice.create({ ...value.project, organization_id: organization!.id }) as any).unwrap();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { token, ...connection } = await dispatch(

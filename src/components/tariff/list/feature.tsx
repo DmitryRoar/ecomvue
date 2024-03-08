@@ -83,33 +83,37 @@ type Props = {
 export const TariffFeature = ({ plans }: Props) => {
   const theme = useTheme();
   // plans
-  return planList.map((list, index) => (
-    <Fragment key={index}>
-      {list.type === 'group' && (
-        <FeatureTitleWrapper>
-          <Typography variant="subtitle1">{list.label}</Typography>
-        </FeatureTitleWrapper>
-      )}
-      {list.type === 'list' && (
-        <Grid
-          container
-          spacing={0}
-          sx={{
-            borderBottom: '1px solid',
-            borderColor:
-              theme.palette.mode === 'dark' ? `${theme.palette.background.default} !important` : `${theme.palette.grey[200]} !important`
-          }}
-        >
-          <Grid item xs={8} sm={3} md={3}>
-            <Box sx={{ px: 3, py: 1.5 }}>
-              <Typography component="div" align="left" variant="body2">
-                {list.label}
-              </Typography>
-            </Box>
-          </Grid>
-          {list?.permission?.map((item: any, i) => <ListItem key={i} item={item} />)}
-        </Grid>
-      )}
-    </Fragment>
-  ));
+  return (
+    <>
+      {planList.map((list, index) => (
+        <Fragment key={index}>
+          {list.type === 'group' && (
+            <FeatureTitleWrapper>
+              <Typography variant="subtitle1">{list.label}</Typography>
+            </FeatureTitleWrapper>
+          )}
+          {list.type === 'list' && (
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                borderBottom: '1px solid',
+                borderColor:
+                  theme.palette.mode === 'dark' ? `${theme.palette.background.default} !important` : `${theme.palette.grey[200]} !important`
+              }}
+            >
+              <Grid item xs={8} sm={3} md={3}>
+                <Box sx={{ px: 3, py: 1.5 }}>
+                  <Typography component="div" align="left" variant="body2">
+                    {list.label}
+                  </Typography>
+                </Box>
+              </Grid>
+              {list?.permission?.map((item: any, i) => <ListItem key={i} item={item} />)}
+            </Grid>
+          )}
+        </Fragment>
+      ))}
+    </>
+  );
 };

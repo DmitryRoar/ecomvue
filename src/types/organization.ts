@@ -18,19 +18,17 @@ export type CreateFunctools = {
 };
 
 export type Organization = {
-  my: {
-    id: number;
-    owner: number;
-    users: {
-      user: IAuthUser;
-      user_type: UserType;
-      user_role: {
-        id: string;
-        name: string;
-        functools: OrganizationFunc[];
-      };
-    }[];
-  };
+  id: number;
+  owner: number;
+  users: {
+    user: IAuthUser;
+    user_type: UserType;
+    user_role: {
+      id: string;
+      name: string;
+      functools: OrganizationFunc[];
+    };
+  }[];
 };
 
 export type OrganizationRole = {
