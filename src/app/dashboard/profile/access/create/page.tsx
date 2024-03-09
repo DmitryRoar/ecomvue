@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import { OrganizationSlice } from 'store/slices';
 import { openSnackbar } from 'store/slices/snackbar';
-import Loader from 'ui-component/Loader';
 import MainCard from 'ui-component/cards/MainCard';
+import Loader from 'ui-component/Loader';
 
 const ProfileAccessCreate = () => {
   const intl = useIntl();
@@ -19,15 +19,13 @@ const ProfileAccessCreate = () => {
 
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(true);
-  const [hasError, setHasError] = useState(false);
+  const [picked, setPicked] = useState<number[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setHasError(false);
         await dispatch(OrganizationSlice.getFunctools()).unwrap();
       } catch (err) {
-        setHasError(true);
         dispatch(
           openSnackbar({
             open: true,
@@ -49,6 +47,28 @@ const ProfileAccessCreate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const submitHandler = async () => {
+    try {
+      if (!name.trim() || !picked.length) {
+        throw Error('dsadas');
+      }
+      await dispatch(OrganizationSlice.createRole({ name, functools: picked }));
+    } catch (err: any) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: err?.detail ?? intl.formatMessage({ id: 'fill-all-fields' }),
+          variant: 'alert',
+          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          close: false,
+          alert: {
+            color: 'error'
+          }
+        })
+      );
+    }
+  };
+
   const columns: GridColDef[] = [
     {
       flex: 0.5,
@@ -63,8 +83,8 @@ const ProfileAccessCreate = () => {
     },
     {
       flex: 0.5,
-      field: 'viewing',
-      headerName: intl.formatMessage({ id: 'viewing' }),
+      field: 'picked',
+      headerName: intl.formatMessage({ id: 'choose' }),
       type: 'string',
       sortable: false,
       minWidth: 100,
@@ -72,33 +92,19 @@ const ProfileAccessCreate = () => {
       headerAlign: 'left',
       editable: false,
       hideable: false,
-      renderCell: () => <Checkbox color="primary" checked={false} onChange={() => {}} />
-    },
-    {
-      flex: 0.5,
-      field: 'create-edit',
-      headerName: intl.formatMessage({ id: 'create-edit' }),
-      type: 'string',
-      sortable: false,
-      minWidth: 100,
-      align: 'left',
-      headerAlign: 'left',
-      editable: false,
-      hideable: false,
-      renderCell: () => <Checkbox color="primary" checked={false} onChange={() => {}} />
-    },
-    {
-      flex: 0.5,
-      field: 'deletion',
-      headerName: intl.formatMessage({ id: 'deletion' }),
-      type: 'string',
-      sortable: false,
-      minWidth: 100,
-      align: 'left',
-      headerAlign: 'left',
-      editable: false,
-      hideable: false,
-      renderCell: () => <Checkbox color="primary" checked={false} onChange={() => {}} />
+      renderCell: ({ row }) => {
+        console.log(row);
+        const checked = picked.some((pick) => pick === row.id);
+        return (
+          <Checkbox
+            color="primary"
+            checked={checked}
+            onChange={() => {
+              setPicked((state) => (checked ? state.filter((s) => s !== row.id) : [...state, row.id]));
+            }}
+          />
+        );
+      }
     }
   ];
 
@@ -119,7 +125,7 @@ const ProfileAccessCreate = () => {
               />
             </Grid>
             <Grid item>
-              <Button variant="contained" size="large" sx={{ px: 2.75, py: 1.5 }}>
+              <Button variant="contained" size="large" sx={{ px: 2.75, py: 1.5 }} onClick={submitHandler}>
                 <FormattedMessage id="create" />
               </Button>
             </Grid>

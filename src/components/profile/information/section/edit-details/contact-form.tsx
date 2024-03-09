@@ -28,9 +28,7 @@ const ProfileContactForm = ({ onSubmit }: PersonalEditProps) => {
       }}
       validationSchema={Yup.object().shape({
         email: Yup.string().email().max(255).required(),
-        phone_number: Yup.string()
-          .matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'phone-format')
-          .required()
+        phone_number: Yup.string().matches(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, 'phone-format')
       })}
       onSubmit={onSubmit}
     >

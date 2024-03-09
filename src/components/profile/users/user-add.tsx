@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 // material-ui
 import {
@@ -45,17 +45,11 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
       user_type: null,
       id: null,
       obj: false
-      // projects: [],
-      // rights: [],
     },
     validationSchema: Yup.object().shape({
-      // first_name: Yup.string(),
-      // last_name: Yup.string(),
-      // email: Yup.string().email('Неверный формат почты'),
-      role_id: Yup.mixed().required('Роль обязательна'),
-      user_type: Yup.mixed().required('Тип пользователя обязателен'),
+      role_id: Yup.mixed().required(),
+      user_type: Yup.mixed().required(),
       obj: Yup.boolean()
-      // id: Yup.lazy((value) => (value ? Yup.number().required('Поле id обязательное') : Yup.number()))
     }),
     onSubmit: (values: ICreateReferal) => {
       console.log({
@@ -103,18 +97,19 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
         })
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, marketError]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const mappedProjects = await projects.map((el: ProjectGeneral) => ({ label: el.name, value: el.id! }));
-      setProjectsOptions(mappedProjects);
-      const mappedRoles = await roles.map((el: OrganizationRole) => ({ label: el.name, value: el.id }));
-      setRolesOptions(mappedRoles);
-    };
+  const fetchData = useCallback(async () => {
+    const mappedProjects = projects.map((el: ProjectGeneral) => ({ label: el.name, value: el.id! }));
+    setProjectsOptions(mappedProjects);
+    const mappedRoles = roles.map((el: OrganizationRole) => ({ label: el.name, value: el.id }));
+    setRolesOptions(mappedRoles);
+  }, [projects, roles]);
 
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   return (
     <Dialog open={open} onClose={handleCloseDialog} maxWidth="md" fullWidth>

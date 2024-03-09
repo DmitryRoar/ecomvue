@@ -22,7 +22,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 // project imports
-import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 import { dispatch } from 'store';
@@ -33,17 +32,18 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-// types
 import { useRouter } from 'next/navigation';
 import { FormattedMessage } from 'react-intl';
 import { StringColorProps } from 'types';
+import axiosServices from 'utils/axios';
 
-// ========================|| FIREBASE - RESET PASSWORD ||======================== //
+type Props = {
+  token: string;
+};
 
-const AuthResetPassword = ({ ...others }) => {
-  const router = useRouter();
+const AuthResetPassword = ({ token }: Props) => {
   const theme = useTheme();
-  const scriptedRef = useScriptRef();
+  const router = useRouter();
   const [showPassword, setShowPassword] = React.useState(false);
   const [strength, setStrength] = React.useState(0);
   const [level, setLevel] = React.useState<StringColorProps>();
@@ -66,12 +66,45 @@ const AuthResetPassword = ({ ...others }) => {
     changePassword('');
   }, []);
 
+  const submitHandler = async (values: any) => {
+    try {
+      const { data } = await axiosServices.post('/v1/auth/password-reset/verify/', {
+        token,
+        new_password: values.password
+      });
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: data.detail,
+          variant: 'alert',
+          alert: {
+            color: 'success'
+          },
+          close: false
+        })
+      );
+    } catch (err: any) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: err?.detail,
+          variant: 'alert',
+          alert: {
+            color: 'error'
+          },
+          close: false
+        })
+      );
+    } finally {
+      router.push('/auth/login');
+    }
+  };
+
   return (
     <Formik
       initialValues={{
         password: '',
-        confirmPassword: '',
-        submit: null
+        confirmPassword: ''
       }}
       validationSchema={Yup.object().shape({
         password: Yup.string().max(255).required('Это поле обязательно'),
@@ -79,41 +112,10 @@ const AuthResetPassword = ({ ...others }) => {
           .required('Confirm Password is required')
           .test('confirmPassword', 'Both Password must be match!', (confirmPassword, yup) => yup.parent.password === confirmPassword)
       })}
-      onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-        try {
-          // password reset
-          if (scriptedRef.current) {
-            setStatus({ success: true });
-            setSubmitting(false);
-
-            dispatch(
-              openSnackbar({
-                open: true,
-                message: 'Successfuly reset password.',
-                variant: 'alert',
-                alert: {
-                  color: 'success'
-                },
-                close: false
-              })
-            );
-
-            setTimeout(() => {
-              router.push('/auth/login');
-            }, 1500);
-          }
-        } catch (err: any) {
-          console.error(err);
-          if (scriptedRef.current) {
-            setStatus({ success: false });
-            setErrors({ submit: err.message });
-            setSubmitting(false);
-          }
-        }
-      }}
+      onSubmit={submitHandler}
     >
-      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-        <form noValidate onSubmit={handleSubmit} {...others}>
+      {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
+        <form noValidate onSubmit={handleSubmit}>
           <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
             <InputLabel htmlFor="outlined-adornment-password-reset">
               <FormattedMessage id="password" />{' '}
@@ -203,23 +205,13 @@ const AuthResetPassword = ({ ...others }) => {
               </FormHelperText>
             </FormControl>
           )}
-
-          {errors.submit && (
-            <Box
-              sx={{
-                mt: 3
-              }}
-            >
-              <FormHelperText error>{errors.submit}</FormHelperText>
-            </Box>
-          )}
           <Box
             sx={{
               mt: 1
             }}
           >
             <AnimateButton>
-              <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+              <Button disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary">
                 <FormattedMessage id="reset-password" />
               </Button>
             </AnimateButton>

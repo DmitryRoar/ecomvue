@@ -7,9 +7,9 @@ import { useTheme } from '@mui/material/styles';
 
 // project imports
 import { PropsCodeVerification } from 'app/(minimal)/auth/code-verification/page';
+import AuthCodeVerification from 'components/authentication/auth-forms/AuthCodeVerification';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
 import AuthWrapper1 from 'components/authentication/AuthWrapper1';
-import AuthCodeVerification from 'components/authentication/auth-forms/AuthCodeVerification';
 import { FormattedMessage } from 'react-intl';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
@@ -27,11 +27,9 @@ const CodeVerification = ({ searchParams }: PropsCodeVerification) => {
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                   <Grid item sx={{ mb: 3 }}>
-                    <Link href="#" aria-label="theme-logo">
-                      <Typography color={theme.palette.secondary.main} gutterBottom variant="h3">
-                        {process.env.NEXT_PUBLIC_NAME}
-                      </Typography>
-                    </Link>
+                    <Typography color={theme.palette.secondary.main} gutterBottom variant="h3">
+                      {process.env.NEXT_PUBLIC_NAME}
+                    </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container direction={matchDownSM ? 'column-reverse' : 'row'} alignItems="center" justifyContent="center">

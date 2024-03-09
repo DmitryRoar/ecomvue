@@ -16,6 +16,7 @@ import menuReducer from './slices/menu';
 import organizationReducer from './slices/organization';
 import referalReducer from './slices/referal';
 import tariffReducer from './slices/tariff';
+import userReducer from './slices/user';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -32,7 +33,7 @@ const reducer = combineReducers({
   chat: chatReducer,
   calendar: calendarReducer,
   mail: mailReducer,
-  // user: userReducer,
+  user: userReducer,
   menu: menuReducer
 });
 

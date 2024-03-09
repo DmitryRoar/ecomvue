@@ -18,19 +18,19 @@ const AuthSignInButtons = () => {
       </Typography>
       <Stack direction="row" justifyContent="center" spacing={2}>
         <Link
-          href="https://oauth.yandex.ru/authorize?response_type=code&client_id=5182394bae63428fae8d8d78a1e6b58a"
+          href={`https://oauth.yandex.ru/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_YANDEX_CLIENT_ID}`}
           style={{ padding: '6px' }}
         >
           <YandexLogo width="36px" />
         </Link>
         <Link
-          href={`https://oauth.vk.com/authorize?client_id=51825298&redirect_uri=${origin}/auth/media/${SocialMediaType.vk_auth}&display=page&response_type=code`}
+          href={`https://oauth.vk.com/authorize?client_id=${process.env.NEXT_PUBLIC_VK_CLIENT_ID}&redirect_uri=${origin}/auth/media/${SocialMediaType.vk_auth}&display=page&response_type=code`}
           style={{ padding: '6px' }}
         >
           <VKLogo width="36px" />
         </Link>
         <Link
-          href={`https://oauth.mail.ru/login?client_id=dc007f8b0c3a44f6a3251c68a8364a5f&response_type=code&scope=userinfo&redirect_uri=${origin}/auth/media/${SocialMediaType.mail_ru_auth}&state=some_state`}
+          href={`https://oauth.mail.ru/login?client_id=${process.env.NEXT_PUBLIC_MAIL_RU_CLIENT_ID}&response_type=code&scope=userinfo&redirect_uri=${origin}/auth/media/${SocialMediaType.mail_ru_auth}&state=some_state`}
           style={{ padding: '6px' }}
         >
           <MailLogo width="36px" />

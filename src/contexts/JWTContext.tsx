@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, createContext, useEffect, useReducer, useState } from 'react';
+import { createContext, PropsWithChildren, useEffect, useReducer, useState } from 'react';
 
 import accountReducer from 'store/accountReducer';
 import { LOGIN, LOGOUT, UPDATE_USER_PERSONAL } from 'store/actions';
@@ -87,7 +87,6 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
     });
 
     setToken(tokens);
-    router.push(DASHBOARD_PATH);
   };
 
   const onRegisterViaMedia = async (type: keyof typeof SocialMediaType, code: string): Promise<void> => {
@@ -124,6 +123,11 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
       type: LOGOUT
     });
     setToken(null);
+    for (let key in localStorage) {
+      if (key !== 'berry-config-ts') {
+        localStorage.removeItem(key);
+      }
+    }
     localStorage.removeItem(StorageNames.token);
   };
 

@@ -1,9 +1,10 @@
-// types
 import { GenericCardProps } from 'types';
 import { PostDataType, Profile, UserProfile } from 'types/user-profile';
 import { OrganizationRole } from './organization';
 
-// ==============================|| TYPES - USER ||============================== //
+export type UserProps = {
+  marketplaces: any[];
+};
 
 export type UserType = 'employee' | 'executor';
 
@@ -90,6 +91,7 @@ export interface IUsersInitState {
 }
 
 export class StorageNames {
+  static readonly referal = 'referal';
   static readonly token = 'tokens';
   static readonly reportAvitoBalance = 'report-avito-balance-date';
   static readonly reportAvitoPromition = 'report-avito-promotion';

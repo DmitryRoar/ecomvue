@@ -34,9 +34,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import useAuth from 'hooks/useAuth';
+import { useSearchParams } from 'next/navigation';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'store';
 import { StringColorProps } from 'types';
+import { StorageNames } from 'types/user';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import { openSnackbar } from '../../../store/slices/snackbar';
 import AuthSignInButtons from './AuthSignInButtons';
@@ -44,6 +46,7 @@ import AuthSignInButtons from './AuthSignInButtons';
 // ===========================|| JWT - REGISTER ||=========================== //
 
 const JWTRegister = ({ ...others }) => {
+  const searchParams = useSearchParams();
   const theme = useTheme();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -95,8 +98,11 @@ const JWTRegister = ({ ...others }) => {
           email: Yup.string().email('Must be a valid email').max(255).required('Это поле обязательно'),
           password: Yup.string().max(255).required('Это поле обязательно')
         })}
-        onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+        onSubmit={async (values) => {
           try {
+            if (searchParams.get('ref')) {
+              localStorage.setItem(StorageNames.referal, searchParams.get('ref') as string);
+            }
             await onRegister(values.email, values.password);
           } catch (err: any) {
             if (err) {

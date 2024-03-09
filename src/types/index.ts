@@ -21,7 +21,7 @@ import { KanbanStateProps } from './kanban';
 import { MailStateProps } from './mail';
 import { ProductStateProps } from './product';
 import { SnackbarProps } from './snackbar';
-import { UserStateProps } from './user';
+import { UserProps } from './user';
 
 // types
 import { UserProfile } from 'types/user-profile';
@@ -138,7 +138,7 @@ export interface DefaultRootStateProps {
   chat: ChatStateProps;
   calendar: CalendarStateProps;
   mail: MailStateProps;
-  user: UserStateProps | {};
+  user: UserProps;
 }
 
 export interface ColorProps {

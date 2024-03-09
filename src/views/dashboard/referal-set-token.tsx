@@ -16,6 +16,7 @@ const ReferalSetTokenView = () => {
       dispatch(ReferalSlice.setToken({ token: slug }));
       setIsQuery(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

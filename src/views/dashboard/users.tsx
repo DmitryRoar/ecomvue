@@ -39,7 +39,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { IconSearch } from '@tabler/icons-react';
 import UserAdd from 'components/profile/users/user-add';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import { IUsers } from 'types/user';
@@ -120,8 +120,6 @@ const headCells: HeadCell[] = [
   }
 ];
 
-// ==============================|| TABLE HEADER TOOLBAR ||============================== //
-
 interface ProEnhancedTableHeadProps extends EnhancedTableHeadProps {
   theme: Theme;
   selected: string[];
@@ -157,8 +155,6 @@ const EnhancedTableToolbar = ({ numSelected }: EnhancedTableToolbarProps) => (
     )}
   </Toolbar>
 );
-
-// ==============================|| TABLE HEADER ||============================== //
 
 function EnhancedTableHead({
   onSelectAllClick,
@@ -227,12 +223,10 @@ function EnhancedTableHead({
   );
 }
 
-// ==============================|| USERS LIST ||============================== //
-
 const Users = () => {
   const theme = useTheme();
+  const intl = useIntl();
   const { organization: data } = useSelector((s) => s.organization);
-  // show a right sidebar when clicked on new user
   const [open, setOpen] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen(true);
@@ -248,6 +242,7 @@ const Users = () => {
   const [page, setPage] = React.useState<number>(0);
   const [rowsPerPage, setRowsPerPage] = React.useState<number>(5);
   const [search, setSearch] = React.useState<string>('');
+  console.log('search: ', search);
   const [rows, setRows] = React.useState<any[]>([]);
 
   useEffect(() => {
@@ -364,7 +359,7 @@ const Users = () => {
           </Grid>
         </Grid>
         {/* <Grid container alignItems="center">
-          
+
           <Grid item xs={12} sm={6}>
             <TextField
               InputProps={{
@@ -485,6 +480,7 @@ const Users = () => {
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
             count={rows.length}
+            labelRowsPerPage={intl.formatMessage({ id: 'rows-page' })}
             rowsPerPage={rowsPerPage}
             page={page}
             onPageChange={handleChangePage}

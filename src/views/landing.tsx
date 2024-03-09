@@ -78,8 +78,6 @@ const CardMediaPurple = styled('img')({
   animation: '12s wings ease-in-out infinite'
 });
 
-// =============================|| LANDING MAIN ||============================= //
-
 const Landing = () => {
   const theme = useTheme();
   const time = new Date();

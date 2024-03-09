@@ -2,23 +2,31 @@
 
 import Link from 'next/link';
 
-// material-ui
 import { Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-// project imports
+import AuthResetPassword from 'components/authentication/auth-forms/AuthResetPassword';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
 import AuthWrapper1 from 'components/authentication/AuthWrapper1';
-import AuthResetPassword from 'components/authentication/auth-forms/AuthResetPassword';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-
-// ============================|| AUTH3 - RESET PASSWORD ||============================ //
 
 const ResetPassword = () => {
   const theme = useTheme();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
+  const router = useRouter();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
-  return (
+  useEffect(() => {
+    if (!token) {
+      router.push('/auth/login');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
+
+  return token ? (
     <AuthWrapper1>
       <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
         <Grid item xs={12}>
@@ -48,7 +56,7 @@ const ResetPassword = () => {
                     </Grid>
                   </Grid>
                   <Grid item xs={12}>
-                    <AuthResetPassword />
+                    <AuthResetPassword token={searchParams.get('token') as string} />
                   </Grid>
                 </Grid>
               </AuthCardWrapper>
@@ -57,6 +65,8 @@ const ResetPassword = () => {
         </Grid>
       </Grid>
     </AuthWrapper1>
+  ) : (
+    <></>
   );
 };
 
