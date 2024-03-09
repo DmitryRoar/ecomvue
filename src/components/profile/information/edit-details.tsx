@@ -8,6 +8,7 @@ import useAuth from 'hooks/useAuth';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
+import ProfileAvatarForm from './section/edit-details/avatar-form';
 import ProfileContactForm from './section/edit-details/contact-form';
 import ProfileEducationForm from './section/edit-details/education-form';
 import ProfilePersonalForm from './section/edit-details/personal-form';
@@ -58,7 +59,12 @@ const ProfileEditDetails = () => {
 
   return (
     <Grid container spacing={gridSpacing}>
-      <Grid item xs={12} md={6}>
+      <Grid item xs={12} md={4}>
+        <SubCard title={<FormattedMessage id="avatar" />}>
+          <ProfileAvatarForm />
+        </SubCard>
+      </Grid>
+      <Grid item xs={12} md={8}>
         <SubCard title={<FormattedMessage id="personal-information" />}>
           <ProfilePersonalForm onSubmit={submitHandler} />
         </SubCard>

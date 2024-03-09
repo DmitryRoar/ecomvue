@@ -48,5 +48,6 @@ export type JWTContextType = {
   onRegister: (email: string, password: string) => Promise<void>;
   onRegisterViaMedia: (type: keyof typeof SocialMediaType, code: string) => Promise<void>;
   onUpdateUser: (data: Partial<IUserDataAPI> | IUserPersonalPart) => Promise<void>;
+  onUpdateAvatar: (formData: any) => Promise<void>;
   onLogout: () => void;
 };

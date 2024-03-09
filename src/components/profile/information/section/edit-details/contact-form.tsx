@@ -50,12 +50,11 @@ const ProfileContactForm = ({ onSubmit }: PersonalEditProps) => {
               )}
             </Grid>
             <Grid item xs={12} md={6}>
-              <Field error={Boolean(touched.phone_number && errors.phone_number)} name="phone_number" component={PhoneInput} />
-              {touched.phone_number && errors.phone_number && (
-                <FormHelperText error id="standard-weight-helper-text--register">
-                  {errors.phone_number}
-                </FormHelperText>
-              )}
+              <Field
+                error={Boolean(touched.phone_number && errors.phone_number && values.phone_number)}
+                name="phone_number"
+                component={PhoneInput}
+              />
             </Grid>
             <Grid item sx={{ display: 'flex', justifyContent: 'flex-end' }} xs={12}>
               <Button variant="contained" color="secondary" type="submit">

@@ -27,6 +27,7 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconLogout, IconPalette, IconSettings } from '@tabler/icons-react';
+import { PERSONAL_IMAGE_PREFIX } from 'components/profile/information/summary';
 import { UIContext } from 'contexts/UIContext';
 import useConfig from 'hooks/useConfig';
 
@@ -95,7 +96,7 @@ const ProfileSection = () => {
         }}
         icon={
           <Avatar
-            src={User1}
+            src={`${PERSONAL_IMAGE_PREFIX}${user?.image}`}
             sx={{
               ...theme.typography.mediumAvatar,
               margin: '8px 0 8px 8px !important',
@@ -105,7 +106,7 @@ const ProfileSection = () => {
             aria-controls={open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
             color="inherit"
-            alt="user images"
+            alt={user?.first_name}
           />
         }
         label={<IconSettings stroke={1.5} size="24px" color={theme.palette.primary.main} />}

@@ -7,7 +7,7 @@ import { LOGIN, LOGOUT, UPDATE_USER_PERSONAL } from 'store/actions';
 
 import axios from 'utils/axios';
 
-import { DASHBOARD_PATH } from 'config';
+import { PERSONAL_IMAGE_PREFIX } from 'components/profile/information/summary';
 import { useRouter } from 'next/navigation';
 import { AuthToken, JWTContextType, SocialMediaType } from 'types/auth';
 import { StorageNames } from 'types/user';
@@ -54,11 +54,11 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
       if (err.code === 'token_not_valid') {
         onRefresh();
       } else {
+        console.log('hello');
         dispatch({
           type: LOGOUT
         });
       }
-      console.log(err.code);
     } finally {
       setLoading(false);
     }
@@ -77,7 +77,6 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
   const onLogin = async (email: string, password: string): Promise<void> => {
     const { data: tokens } = await axios.post('/v1/auth/login/', { email, password });
     setToken(tokens);
-    router.push(DASHBOARD_PATH);
   };
 
   const onRegister = async (email: string, password: string): Promise<void> => {
@@ -118,6 +117,15 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const onUpdateAvatar = async (formData: any) => {
+    const { data } = await axios.patch('/v1/users/self/', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
+    const imageWoOrigin = data.image.replace(PERSONAL_IMAGE_PREFIX, '');
+    dispatch({
+      type: UPDATE_USER_PERSONAL,
+      payload: { partUser: { ...data, image: imageWoOrigin } }
+    });
+  };
+
   const onLogout = (): void => {
     dispatch({
       type: LOGOUT
@@ -140,6 +148,7 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
         onRegister,
         onRegisterViaMedia,
         onUpdateUser,
+        onUpdateAvatar,
         onLogout
       }}
     >

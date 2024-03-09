@@ -22,7 +22,7 @@ import { ProfileSectionEducation } from './section/summary/education';
 import { ProfileSectionEmployment } from './section/summary/employment';
 import { ProfileSectionMarketplaces } from './section/summary/marketplaces';
 
-const Avatar3 = '/assets/images/users/avatar-3.png';
+export const PERSONAL_IMAGE_PREFIX = `${process.env.NEXT_PUBLIC_MEDIA_PROTOCOL}://${process.env.NEXT_PUBLIC_MEDIA}`;
 
 type SocialProps = {
   sc_facebook: string | undefined;
@@ -90,7 +90,7 @@ const ProfileSummary = ({ onSwitchTab }: Props) => {
           title={
             <Grid container spacing={2} alignItems="center">
               <Grid item>
-                <Avatar alt="User 1" src={Avatar3} />
+                <Avatar alt={user?.name} src={user?.image ? `${PERSONAL_IMAGE_PREFIX}${user.image}` : null} />
               </Grid>
               <Grid item xs zeroMinWidth>
                 <Typography align="left" variant="subtitle1">

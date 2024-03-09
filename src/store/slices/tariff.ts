@@ -32,6 +32,11 @@ export const getAll = createAsyncThunk('tariff/getAll', async () => {
   return data;
 });
 
+export const getListAdd = createAsyncThunk('tariff/getListAdd', async () => {
+  const { data } = await axios.get('/v1/tariffs/list_add');
+  return data;
+});
+
 export const purchase = createAsyncThunk('tariff/purchase', async (id: number) => {
   const { data } = await axios.post('/v1/tariffs/purchase/', { tariff_plan_id: id });
   return data;
