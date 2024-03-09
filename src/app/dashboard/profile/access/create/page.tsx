@@ -47,6 +47,8 @@ const ProfileAccessCreate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  console.log(functools);
+
   const submitHandler = async () => {
     try {
       if (!name.trim() || !picked.length) {

@@ -8,7 +8,6 @@ import { LOGIN, LOGOUT, UPDATE_USER_PERSONAL } from 'store/actions';
 import axios from 'utils/axios';
 
 import { PERSONAL_IMAGE_PREFIX } from 'components/profile/information/summary';
-import { useRouter } from 'next/navigation';
 import { AuthToken, JWTContextType, SocialMediaType } from 'types/auth';
 import { StorageNames } from 'types/user';
 import { IUserDataAPI } from './types';
@@ -16,8 +15,6 @@ import { IUserDataAPI } from './types';
 const JWTContext = createContext<JWTContextType | null>(null);
 
 export const JWTProvider = ({ children }: PropsWithChildren) => {
-  const router = useRouter();
-
   const [loading, setLoading] = useState(false);
   const [user, dispatch] = useReducer(accountReducer, null);
   const [token, setToken] = useState<AuthToken | null>(null);

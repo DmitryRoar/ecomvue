@@ -31,8 +31,6 @@ import { PERSONAL_IMAGE_PREFIX } from 'components/profile/information/summary';
 import { UIContext } from 'contexts/UIContext';
 import useConfig from 'hooks/useConfig';
 
-const User1 = '/assets/images/users/user-round.svg';
-
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {

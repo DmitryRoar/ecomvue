@@ -70,10 +70,6 @@ const ProjectCreate = () => {
     );
   };
 
-  const submitHandler = () => {
-    // changeModeHandler('edit');
-  };
-
   return (
     <MainCard title={intl.formatMessage({ id: 'projects' })}>
       <Grid container spacing={gridSpacing}>

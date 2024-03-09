@@ -90,7 +90,7 @@ const ProfileSummary = ({ onSwitchTab }: Props) => {
           title={
             <Grid container spacing={2} alignItems="center">
               <Grid item>
-                <Avatar alt={user?.name} src={user?.image ? `${PERSONAL_IMAGE_PREFIX}${user.image}` : null} />
+                <Avatar alt={user?.name} src={user?.image ? `${PERSONAL_IMAGE_PREFIX}${user.image}` : ''} />
               </Grid>
               <Grid item xs zeroMinWidth>
                 <Typography align="left" variant="subtitle1">

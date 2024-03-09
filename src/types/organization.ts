@@ -1,6 +1,12 @@
 import { IAuthUser } from './auth';
 import { UserType } from './user';
 
+export enum FunctoolEnum {
+  'see' = 1,
+  'create_refact' = 2,
+  delete = 3
+}
+
 export type OrganizationFunc = {
   id: string;
   name: string;
