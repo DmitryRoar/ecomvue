@@ -27,7 +27,7 @@ const ProfilePage = () => {
 
   const { user } = useAuth();
 
-  const [value, setValue] = useState<string>(user?.first_name ? '2' : '1');
+  const [value, setValue] = useState<string>(user?.first_name ? '0' : '1');
 
   const switchTab = useCallback((newValue: string) => {
     setValue(newValue);
