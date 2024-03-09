@@ -59,11 +59,10 @@ const INIT_USER: MarketplaceCreate = {
 
 interface CreateProps {
   names: string[];
-  onSubmit: () => void;
   onClose: () => void;
 }
 
-const ProjectCreatePopup = ({ names, onClose, onSubmit }: CreateProps) => {
+const ProjectCreatePopup = ({ names, onClose }: CreateProps) => {
   const intl = useIntl();
   const theme = useTheme();
 

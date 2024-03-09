@@ -92,6 +92,7 @@ export interface IUsersInitState {
 
 export class StorageNames {
   static readonly referal = 'referal';
+  static readonly servicesTitle = 'services-title';
   static readonly token = 'tokens';
   static readonly reportAvitoBalance = 'report-avito-balance-date';
   static readonly reportAvitoPromition = 'report-avito-promotion';

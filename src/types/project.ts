@@ -8,7 +8,7 @@ export enum MarketplaceEnum {
 }
 
 export type ProjectPermission = {
-  type: string;
+  type: number;
   value: string;
 };
 

@@ -1,7 +1,5 @@
 'use client';
 
-import Link from 'next/link';
-
 // material-ui
 import { Button, Grid, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -24,6 +22,8 @@ const CheckMail = () => {
     router.push('/auth/login');
   };
 
+  const openMailHandler = () => {};
+
   return (
     <AuthWrapper1>
       <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
@@ -33,11 +33,9 @@ const CheckMail = () => {
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                   <Grid item sx={{ mb: 3 }}>
-                    <Link href="#" aria-label="theme-logo">
-                      <Typography color={theme.palette.secondary.main} gutterBottom variant={'h3'}>
-                        {process.env.NEXT_PUBLIC_NAME}
-                      </Typography>
-                    </Link>
+                    <Typography color={theme.palette.secondary.main} gutterBottom variant={'h3'}>
+                      {process.env.NEXT_PUBLIC_NAME}
+                    </Typography>
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container alignItems="center" justifyContent="center" textAlign="center" spacing={2}>
@@ -55,7 +53,15 @@ const CheckMail = () => {
                   </Grid>
                   <Grid item xs={12}>
                     <AnimateButton>
-                      <Button disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary">
+                      <Button
+                        disableElevation
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                        onClick={openMailHandler}
+                      >
                         <FormattedMessage id="open-mail" />
                       </Button>
                     </AnimateButton>

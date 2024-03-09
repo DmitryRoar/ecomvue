@@ -139,7 +139,7 @@ const ProjectCreate = () => {
 
         {mode === 'add' && (
           <Grid item sx={{ width: 342, margin: { xs: '0 auto', md: 'initial' } }}>
-            <ProjectCreatePopup names={names} onClose={closeHandler} onSubmit={submitHandler} />
+            <ProjectCreatePopup names={names} onClose={closeHandler} />
           </Grid>
         )}
       </Grid>

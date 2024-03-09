@@ -76,6 +76,11 @@ const nextConfig = {
         source: '/projects',
         destination: '/create',
         permanent: true
+      },
+      {
+        source: '/',
+        destination: '/dashboard',
+        permanent: true
       }
     ];
   }

@@ -12,13 +12,13 @@ import MainCard from 'ui-component/cards/MainCard';
 import TabContext from '@mui/lab/TabContext';
 import TabPanel from '@mui/lab/TabPanel';
 import ProfileEditDetails from 'components/profile/information/edit-details';
-import { ProfileMarketplaces } from 'components/profile/information/marketplaces';
 import { ProfileServices } from 'components/profile/information/services';
 import ProfileSummary from 'components/profile/information/summary';
 import useAuth from 'hooks/useAuth';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'store';
 import { UserSlice } from 'store/slices';
+import { openSnackbar } from 'store/slices/snackbar';
 
 const ProfilePage = () => {
   const theme = useTheme();
@@ -27,7 +27,7 @@ const ProfilePage = () => {
 
   const { user } = useAuth();
 
-  const [value, setValue] = useState<string>(user?.first_name ? '0' : '1');
+  const [value, setValue] = useState<string>(user?.first_name ? '2' : '1');
 
   const switchTab = useCallback((newValue: string) => {
     setValue(newValue);
@@ -45,6 +45,23 @@ const ProfilePage = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    if (user && !user?.first_name) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Для продолжения необходимо заполнить поле "Имя"',
+          variant: 'alert',
+          anchorOrigin: { vertical: 'top', horizontal: 'right' },
+          close: false,
+          alert: {
+            color: 'error'
+          }
+        })
+      );
+    }
+  }, [user, dispatch]);
 
   return (
     <MainCard>
@@ -89,8 +106,7 @@ const ProfilePage = () => {
             >
               <Tab label={intl.formatMessage({ id: 'profile' })} value="0" disabled={!user?.first_name} />
               <Tab label={intl.formatMessage({ id: 'information' })} value="1" />
-              <Tab label={intl.formatMessage({ id: 'marketplaces' })} value="2" />
-              <Tab label={intl.formatMessage({ id: 'services' })} value="3" />
+              <Tab label={intl.formatMessage({ id: 'services' })} value="2" disabled={!user?.first_name} />
             </Tabs>
             <TabPanel value="0">
               <ProfileSummary onSwitchTab={switchTab} />
@@ -99,9 +115,6 @@ const ProfilePage = () => {
               <ProfileEditDetails />
             </TabPanel>
             <TabPanel value="2">
-              <ProfileMarketplaces />
-            </TabPanel>
-            <TabPanel value="3">
               <ProfileServices />
             </TabPanel>
           </Grid>
