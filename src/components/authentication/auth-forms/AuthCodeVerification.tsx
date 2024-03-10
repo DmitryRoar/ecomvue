@@ -7,20 +7,23 @@ import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // third-party
+import { DASHBOARD_PATH } from 'config';
+import useAuth from 'hooks/useAuth';
+import { useRouter } from 'next/navigation';
 import { FormattedMessage } from 'react-intl';
 import OtpInput from 'react18-input-otp';
-import axios from 'utils/axios';
-
-// ============================|| STATIC - CODE VERIFICATION ||============================ //
 
 const AuthCodeVerification = () => {
   const theme = useTheme();
-  const [otp, setOtp] = useState<string>();
+  const [otp, setOtp] = useState<string>('');
+  const { onConfirmEmail } = useAuth();
+  const router = useRouter();
   const borderColor = theme.palette.mode === 'dark' ? theme.palette.grey[200] : theme.palette.grey[300];
 
   const submitHandler = async () => {
     try {
-      await axios.post('/v1/users/confirm-email/', { user_id: '', confirmation_code: otp });
+      await onConfirmEmail(otp);
+      router.push(DASHBOARD_PATH);
     } catch (err) {
       console.log(err);
     } finally {
@@ -34,7 +37,7 @@ const AuthCodeVerification = () => {
         <OtpInput
           value={otp}
           onChange={(otpNumber: string) => setOtp(otpNumber)}
-          numInputs={4}
+          numInputs={6}
           containerStyle={{ justifyContent: 'space-between' }}
           inputStyle={{
             width: '100%',

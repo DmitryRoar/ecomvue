@@ -13,7 +13,8 @@ const axiosServices = axios.create({
 
 axiosServices.interceptors.request.use((config) => {
   const tokens = JSON.parse(localStorage.getItem(StorageNames.token) as string) as AuthToken;
-  if (tokens?.access) {
+  const confirmMail = JSON.parse(localStorage.getItem(StorageNames.confirmMail) as string) as boolean;
+  if (tokens?.access && !confirmMail) {
     config.headers.Authorization = `jwt ${tokens.access}`;
   }
   return config;

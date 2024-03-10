@@ -6,17 +6,26 @@ import { Button, Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/ma
 import { useTheme } from '@mui/material/styles';
 
 // project imports
-import { PropsCodeVerification } from 'app/(minimal)/auth/code-verification/page';
 import AuthCodeVerification from 'components/authentication/auth-forms/AuthCodeVerification';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
 import AuthWrapper1 from 'components/authentication/AuthWrapper1';
+import useAuth from 'hooks/useAuth';
+import { useRouter } from 'next/navigation';
 import { FormattedMessage } from 'react-intl';
 import AnimateButton from 'ui-component/extended/AnimateButton';
+import { TransformUtils } from 'utils';
 
 // ===========================|| AUTH3 - CODE VERIFICATION ||=========================== //
-const CodeVerification = ({ searchParams }: PropsCodeVerification) => {
+const CodeVerification = () => {
   const theme = useTheme();
+  const router = useRouter();
+  const { confirmMail, onLogout } = useAuth();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+
+  const goBackHandler = () => {
+    onLogout();
+    router.push('/auth/login');
+  };
 
   return (
     <AuthWrapper1>
@@ -41,9 +50,9 @@ const CodeVerification = ({ searchParams }: PropsCodeVerification) => {
                           <Typography variant="subtitle1" fontSize="1rem">
                             <FormattedMessage id="send-code-verification" />
                           </Typography>
-                          {searchParams.email && (
+                          {confirmMail && (
                             <Typography variant="caption" fontSize="0.875rem" textAlign={matchDownSM ? 'center' : 'inherit'}>
-                              <FormattedMessage id="to-code-verification" /> {searchParams.email}
+                              <FormattedMessage id="to-code-verification" /> {TransformUtils.hideEmail(confirmMail)}
                             </Typography>
                           )}
                         </Stack>
@@ -71,8 +80,16 @@ const CodeVerification = ({ searchParams }: PropsCodeVerification) => {
                   </Grid>
                   <Grid item xs={12}>
                     <AnimateButton>
-                      <Button disableElevation fullWidth size="large" type="submit" variant="outlined" color="secondary">
-                        <FormattedMessage id="resend-code" />
+                      <Button
+                        disableElevation
+                        fullWidth
+                        size="large"
+                        type="submit"
+                        variant="outlined"
+                        color="secondary"
+                        onClick={goBackHandler}
+                      >
+                        <FormattedMessage id="back" />
                       </Button>
                     </AnimateButton>
                   </Grid>

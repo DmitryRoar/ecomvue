@@ -22,7 +22,6 @@ export default function Layout({ children }: PropsWithChildren) {
       dispatch(MarketplaceSlice.getTypes()),
       dispatch(MarketplaceSlice.getTypes()),
       dispatch(TariffSlice.getAll()),
-      dispatch(TariffSlice.getListAdd()),
       dispatch(OrganizationSlice.getOwn())
     ]);
   }, [dispatch]);

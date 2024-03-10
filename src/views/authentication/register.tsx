@@ -7,9 +7,9 @@ import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 // project imports
+import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
 import AuthWrapper1 from 'components/authentication/AuthWrapper1';
-import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
 import { FormattedMessage } from 'react-intl';
 
 // ===============================|| AUTH3 - REGISTER ||=============================== //

@@ -34,7 +34,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import useAuth from 'hooks/useAuth';
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from 'store';
 import { StringColorProps } from 'types';
@@ -43,11 +43,10 @@ import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import { openSnackbar } from '../../../store/slices/snackbar';
 import AuthSignInButtons from './AuthSignInButtons';
 
-// ===========================|| JWT - REGISTER ||=========================== //
-
 const JWTRegister = ({ ...others }) => {
   const searchParams = useSearchParams();
   const theme = useTheme();
+  const router = useRouter();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
@@ -104,6 +103,7 @@ const JWTRegister = ({ ...others }) => {
               localStorage.setItem(StorageNames.referal, searchParams.get('ref') as string);
             }
             await onRegister(values.email, values.password);
+            router.push('/auth/code-verification');
           } catch (err: any) {
             if (err) {
               dispatch(

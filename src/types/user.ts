@@ -94,6 +94,9 @@ export class StorageNames {
   static readonly referal = 'referal';
   static readonly servicesTitle = 'services-title';
   static readonly token = 'tokens';
+  static readonly rawToken = 'raw-token';
+  static readonly confirmMail = 'confirm-email';
+  static readonly userId = 'user-id';
   static readonly reportAvitoBalance = 'report-avito-balance-date';
   static readonly reportAvitoPromition = 'report-avito-promotion';
 }

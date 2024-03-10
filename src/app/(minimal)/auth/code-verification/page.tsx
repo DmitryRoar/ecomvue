@@ -1,14 +1,8 @@
 // PROJECT IMPORTS
 import CodeVerification from 'views/authentication/code-verification';
 
-// ================================|| CODE VERIFICATION ||================================ //
-
-export type PropsCodeVerification = {
-  searchParams: { [key: string]: string };
-};
-
-const CodeVerificationPage = ({ searchParams }: PropsCodeVerification) => {
-  return <CodeVerification searchParams={searchParams} />;
+const CodeVerificationPage = () => {
+  return <CodeVerification />;
 };
 
 export default CodeVerificationPage;
