@@ -58,14 +58,14 @@ const dashboard: NavItemType[] = [
             type: 'item',
             url: '/dashboard/profile/access',
             breadcrumbs: true
-          },
-          {
-            id: 'profileReferals',
-            title: <FormattedMessage id="referals" />,
-            type: 'item',
-            url: '/dashboard/profile/referals',
-            breadcrumbs: true
           }
+          // {
+          //   id: 'profileReferals',
+          //   title: <FormattedMessage id="referals" />,
+          //   type: 'item',
+          //   url: '/dashboard/profile/referals',
+          //   breadcrumbs: true
+          // }
         ]
       },
       {

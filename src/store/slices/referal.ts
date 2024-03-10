@@ -12,9 +12,7 @@ import { DefaultRootStateProps } from '../../types';
 
 const initialState: DefaultRootStateProps['referal'] = {
   invited: 0,
-  promotion: '',
-  token: '',
-  joined: false
+  promotion: ''
 };
 
 const slice = createSlice({
@@ -26,14 +24,8 @@ const slice = createSlice({
       .addCase(getAll.fulfilled, (state, action) => {
         state.invited = action.payload.count;
       })
-      .addCase(getToken.fulfilled, (state, action: any) => {
-        state.token = action.payload.data.link;
-      })
       .addCase(getPromotion.fulfilled, (state, action) => {
         state.promotion = action.payload.code;
-      })
-      .addCase(setToken.fulfilled, (state) => {
-        state.joined = true;
       });
   }
 });
@@ -58,7 +50,8 @@ export const getSale = createAsyncThunk('referal/getSale', async () => {
 
 export const getToken = createAsyncThunk('organizations/getToken', async (userData: Partial<ICreateReferal> | any, { rejectWithValue }) => {
   try {
-    return await axios.post('/v1/referal/get_token', userData);
+    const { data } = await axios.post<{ link: string }>('/v1/referal/get_token', userData);
+    return data.link;
   } catch (err) {
     return rejectWithValue(err);
   }

@@ -26,7 +26,7 @@ import { UserProps } from './user';
 // types
 import { UserProfile } from 'types/user-profile';
 import { MarketplaceProps } from './marketplace';
-import { OgranizationProps } from './organization';
+import { OrganizationProps } from './organization';
 import { ReferalProps } from './referal';
 import { TariffProps } from './tariff';
 
@@ -126,7 +126,7 @@ export interface ColorPaletteProps {
 
 export interface DefaultRootStateProps {
   marketplace: MarketplaceProps;
-  organization: OgranizationProps;
+  organization: OrganizationProps;
   tariff: TariffProps;
   referal: ReferalProps;
   snackbar: SnackbarProps;

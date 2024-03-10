@@ -10,9 +10,9 @@ import { useDispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import { OrganizationSlice } from 'store/slices';
 import { OrganizationRole } from 'types/organization';
-import Loader from 'ui-component/Loader';
 import MainCard from 'ui-component/cards/MainCard';
-import AccessCreateDetails from './create/deatils';
+import Loader from 'ui-component/Loader';
+import AccessCreateDetails from './deatils';
 import { ProfileAccessItem } from './item';
 
 type Mode = 'details' | null;
@@ -26,6 +26,7 @@ export const ProfileAccessList = () => {
 
   const [loading, setLoading] = useState(true);
   const [mode, setMode] = useState<Mode>(null);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const [targetRole, setTargetRole] = useState<OrganizationRole>();
 
@@ -42,7 +43,13 @@ export const ProfileAccessList = () => {
   }, []);
 
   const switchModeHandler = (mode: Mode) => {
+    if (isDisabled) return;
     setMode(mode);
+  };
+
+  const goToCreate = () => {
+    router.push('access/create');
+    setIsDisabled(true);
   };
 
   return (
@@ -69,10 +76,8 @@ export const ProfileAccessList = () => {
                 size="large"
                 startIcon={<AddCircleOutlineOutlinedIcon />}
                 sx={{ px: 2.75, py: 1.5 }}
-                disabled={loading}
-                onClick={() => {
-                  router.push('access/create');
-                }}
+                disabled={loading || isDisabled}
+                onClick={goToCreate}
               >
                 <FormattedMessage id="add" />
               </Button>
@@ -86,6 +91,7 @@ export const ProfileAccessList = () => {
                       setTargetRole(role);
                       switchModeHandler('details');
                     }}
+                    isDisabled={isDisabled}
                     role={role}
                   />
                 </Grid>

@@ -4,21 +4,20 @@ import { useCallback, useEffect, useState } from 'react';
 
 // material-ui
 import {
-  Autocomplete,
-  Button,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  FormHelperText,
-  Grid,
-  Switch,
-  TextField
+    Autocomplete,
+    Button,
+    Chip,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormHelperText,
+    Grid, TextField
 } from '@mui/material';
 
-// project imports
 import { useFormik } from 'formik';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { CoreRef } from 'refs';
 import { dispatch, useSelector } from 'store';
 import { ReferalSlice } from 'store/slices';
 import { openSnackbar } from 'store/slices/snackbar';
@@ -35,7 +34,8 @@ const userTypeOptions = [
 
 // ==============================|| USER ADD DIALOG ||============================== //
 
-const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
+const UserAdd = ({ open, handleCloseDialog }: UsersAddProps) => {
+  const intl = useIntl();
   const formik = useFormik({
     initialValues: {
       first_name: '',
@@ -47,26 +47,31 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
       obj: false
     },
     validationSchema: Yup.object().shape({
+      email: Yup.mixed().required(),
       role_id: Yup.mixed().required(),
       user_type: Yup.mixed().required(),
       obj: Yup.boolean()
     }),
-    onSubmit: (values: ICreateReferal) => {
-      console.log({
-        first_name: values.first_name,
-        last_name: values.last_name,
-        email: values.email,
-        role_id: values?.role_id?.value,
-        user_type: values?.user_type?.value,
-        id: !values.obj ? 0 : values.id ?? 0,
-        obj: values.obj ? 'market' : 'org'
-      });
-      dispatch(
+    onSubmit: async (values: ICreateReferal) => {
+      const link = await dispatch(
         ReferalSlice.getToken({
           role_id: values?.role_id?.value!,
           user_type: values?.user_type?.value.toString()!,
           id: !values.obj ? 0 : values.id ?? 0,
           obj: values.obj ? 'market' : 'org'
+        })
+      ).unwrap();
+      navigator.clipboard.writeText(`${CoreRef.origin}/auth/register?ref=${link}`);
+      dispatch(
+        openSnackbar({
+          open: true,
+          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          message: intl.formatMessage({ id: 'ref-copy' }),
+          variant: 'alert',
+          alert: {
+            color: 'success'
+          },
+          close: false
         })
       );
       handleCloseDialog();
@@ -100,7 +105,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, marketError]);
 
-  const fetchData = useCallback(async () => {
+  const transformData = useCallback(async () => {
     const mappedProjects = projects.map((el: ProjectGeneral) => ({ label: el.name, value: el.id! }));
     setProjectsOptions(mappedProjects);
     const mappedRoles = roles.map((el: OrganizationRole) => ({ label: el.name, value: el.id }));
@@ -108,19 +113,21 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
   }, [projects, roles]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    transformData();
+  }, [transformData]);
 
   return (
     <Dialog open={open} onClose={handleCloseDialog} maxWidth="md" fullWidth>
       <form onSubmit={formik.handleSubmit}>
-        <DialogTitle>Добавить пользователя</DialogTitle>
+        <DialogTitle>
+          <FormattedMessage id="add-user" />
+        </DialogTitle>
         <DialogContent>
           <Grid container spacing={2} sx={{ paddingTop: 2 }}>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Имя (Опционально)"
+                label={intl.formatMessage({ id: 'name' })}
                 onChange={(e) => handleChange(e.target.value, 'first_name')}
                 value={formik.values.first_name}
               />
@@ -128,7 +135,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth
-                label="Фамилия (Опционально)"
+                label={intl.formatMessage({ id: 'surname' })}
                 onChange={(e) => handleChange(e.target.value, 'last_name')}
                 value={formik.values.last_name}
               />
@@ -137,7 +144,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
               <TextField
                 fullWidth
                 type="email"
-                label="Почта (Опционально)"
+                label={intl.formatMessage({ id: 'email' })}
                 onChange={(e) => handleChange(e.target.value, 'email')}
                 value={formik.values.email}
               />
@@ -147,7 +154,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
                 id="tags-outlined"
                 options={userTypeOptions}
                 filterSelectedOptions
-                onChange={(e, j) => handleChange(j, 'user_type')}
+                onChange={(_, j) => handleChange(j, 'user_type')}
                 value={formik.values.user_type as any}
                 renderOption={(props, option) => {
                   return (
@@ -162,7 +169,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
                 renderInput={(params) => (
                   <TextField
                     error={Boolean(formik.touched.user_type && formik.errors.user_type)}
-                    label="Выберите тип пользователя"
+                    label={intl.formatMessage({ id: 'select-user-type' })}
                     {...params}
                   />
                 )}
@@ -178,7 +185,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
                 id="tags-outlined"
                 options={rolesOptions}
                 filterSelectedOptions
-                onChange={(e, j) => handleChange(j, 'role_id')}
+                onChange={(_, j) => handleChange(j, 'role_id')}
                 value={formik.values.role_id}
                 renderOption={(props, option) => {
                   return (
@@ -193,7 +200,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
                 renderInput={(params) => (
                   <TextField
                     error={Boolean(formik.touched.role_id && formik.errors.role_id)}
-                    label="Выберите роль пользователя"
+                    label={intl.formatMessage({ id: 'select-user-role' })}
                     {...params}
                   />
                 )}
@@ -204,7 +211,7 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
                 </FormHelperText>
               )}
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <span style={{ marginRight: 8 }}>Выдать доступ к личному кабинету</span>
               <Switch
                 checked={formik.values.obj}
@@ -235,61 +242,16 @@ const UserAdd = ({ open, handleCloseDialog, users }: UsersAddProps) => {
                     renderInput={(params) => <TextField label="Выберите маркетплейс" {...params} />}
                   />
                 </Grid>
-                {/* <Grid item xs={12}>
-                  <Autocomplete
-                    // multiple
-                    id="tags-outlined"
-                    options={projectsOptions}
-                    value={formik.values.id as any}
-                    onChange={(e, j) => {
-                      console.log('e:', e);
-                      console.log('j', j);
-                    }}
-                    filterSelectedOptions
-                    renderOption={(props, option) => {
-                      return (
-                        <li {...props} key={option.label}>
-                          {option.label}
-                        </li>
-                      );
-                    }}
-                    renderTags={(tagValue, getTagProps) => {
-                      return tagValue.map((option, index) => <Chip {...getTagProps({ index })} key={option.label} label={option.label} />);
-                    }}
-                    renderInput={(params) => <TextField label="Выберите маркетплейсы" {...params} />}
-                  />
-                </Grid> */}
-                {/* <Grid item xs={12}>
-                  <Autocomplete
-                    multiple
-                    id="tags-outlined"
-                    options={functoolsOptions}
-                    filterSelectedOptions
-                    onChange={(e) => handleChange(e, 'rights')}
-                    value={formik.values.rights}
-                    renderOption={(props, option) => {
-                      return (
-                        <li {...props} key={option.label}>
-                          {option.label}
-                        </li>
-                      );
-                    }}
-                    renderTags={(tagValue, getTagProps) => {
-                      return tagValue.map((option, index) => <Chip {...getTagProps({ index })} key={option.label} label={option.label} />);
-                    }}
-                    renderInput={(params) => <TextField label="Выберите права" {...params} />}
-                  />
-                </Grid> */}
               </>
-            )}
+            )} */}
           </Grid>
         </DialogContent>
         <DialogActions>
           <Button type="submit" variant="contained">
-            Создать
+            <FormattedMessage id="create" />
           </Button>
           <Button color="error" onClick={handleCloseDialog}>
-            Закрыть
+            <FormattedMessage id="close" />
           </Button>
         </DialogActions>
       </form>

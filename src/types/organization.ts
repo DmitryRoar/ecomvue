@@ -2,9 +2,9 @@ import { IAuthUser } from './auth';
 import { UserType } from './user';
 
 export enum FunctoolEnum {
-  'see' = 1,
-  'create_refact' = 2,
-  delete = 3
+  'see' = '1',
+  'create_refact' = '2',
+  'delete' = '3'
 }
 
 export type OrganizationFunc = {
@@ -52,14 +52,16 @@ export type OrganizationRole = {
   functools: {
     id: number;
     name: string;
+    type: string;
   }[];
   id: number;
   is_default: boolean;
   name: string;
 };
 
-export type OgranizationProps = {
+export type OrganizationProps = {
   organization: Organization | null;
   roles: OrganizationRole[];
   functools?: any[];
+  update_roles: boolean;
 };

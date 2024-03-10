@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import React, { SyntheticEvent, useEffect, useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 
 // material-ui
 import {
@@ -35,7 +35,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import useAuth from 'hooks/useAuth';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'store';
 import { StringColorProps } from 'types';
 import { StorageNames } from 'types/user';
@@ -46,6 +46,7 @@ import AuthSignInButtons from './AuthSignInButtons';
 const JWTRegister = ({ ...others }) => {
   const searchParams = useSearchParams();
   const theme = useTheme();
+  const intl = useIntl();
   const router = useRouter();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -73,10 +74,6 @@ const JWTRegister = ({ ...others }) => {
     setLevel(strengthColor(temp));
   };
 
-  useEffect(() => {
-    changePassword('123456');
-  }, []);
-
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
@@ -90,12 +87,16 @@ const JWTRegister = ({ ...others }) => {
       <Formik
         initialValues={{
           email: '',
-          password: '',
-          submit: null
+          password: ''
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Это поле обязательно'),
-          password: Yup.string().max(255).required('Это поле обязательно')
+          email: Yup.string()
+            .email()
+            .max(255)
+            .required(intl.formatMessage({ id: 'required-input' })),
+          password: Yup.string()
+            .max(255)
+            .required(intl.formatMessage({ id: 'required-input' }))
         })}
         onSubmit={async (values) => {
           try {
@@ -216,11 +217,6 @@ const JWTRegister = ({ ...others }) => {
               </Grid>
             </Grid>
             <AuthSignInButtons />
-            {errors.submit && (
-              <Box sx={{ mt: 3 }}>
-                <FormHelperText error>{errors.submit}</FormHelperText>
-              </Box>
-            )}
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>

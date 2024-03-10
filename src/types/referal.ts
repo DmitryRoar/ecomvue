@@ -16,6 +16,4 @@ export interface ICreateReferal {
 export type ReferalProps = {
   invited: number;
   promotion: string;
-  token: string;
-  joined: boolean;
 };

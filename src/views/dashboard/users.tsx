@@ -40,8 +40,9 @@ import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import { IconSearch } from '@tabler/icons-react';
 import UserAdd from 'components/profile/users/user-add';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useSelector } from 'store';
+import { dispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
+import { OrganizationSlice } from 'store/slices';
 import { IUsers } from 'types/user';
 
 // table sort
@@ -226,7 +227,7 @@ function EnhancedTableHead({
 const Users = () => {
   const theme = useTheme();
   const intl = useIntl();
-  const { organization: data } = useSelector((s) => s.organization);
+  const { organization: data, roles } = useSelector((s) => s.organization);
   const [open, setOpen] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen(true);
@@ -251,6 +252,18 @@ const Users = () => {
       setLoading(false);
     }
   }, [data]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(OrganizationSlice.getRoles());
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSearch = (event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement> | undefined) => {
     const newString = event?.target.value;
@@ -280,7 +293,7 @@ const Users = () => {
     }
   };
 
-  const handleRequestSort = (event: React.SyntheticEvent<Element, Event>, property: string) => {
+  const handleRequestSort = (_event: React.SyntheticEvent<Element, Event>, property: string) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -299,7 +312,7 @@ const Users = () => {
     setSelected([]);
   };
 
-  const handleClick = (event: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>, name: string) => {
+  const handleClick = (_event: React.MouseEvent<HTMLTableHeaderCellElement, MouseEvent>, name: string) => {
     const selectedIndex = selected.indexOf(name);
     let newSelected: string[] = [];
 
@@ -316,7 +329,7 @@ const Users = () => {
     setSelected(newSelected);
   };
 
-  const handleChangePage = (event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
+  const handleChangePage = (_event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => {
     setPage(newPage);
   };
 

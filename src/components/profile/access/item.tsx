@@ -14,10 +14,11 @@ const ListWrapper = styled('div')(({ theme }) => ({
 
 type Props = {
   role: OrganizationRole;
+  isDisabled: boolean;
   onActive: () => void;
 };
 
-export const ProfileAccessItem = ({ role, onActive }: Props) => {
+export const ProfileAccessItem = ({ role, isDisabled, onActive }: Props) => {
   const intl = useIntl();
 
   return (
@@ -47,7 +48,7 @@ export const ProfileAccessItem = ({ role, onActive }: Props) => {
                 <Grid container spacing={1} sx={{ justifyContent: 'flex-end' }}>
                   <Grid item>
                     <Tooltip placement="top" title={intl.formatMessage({ id: 'look' })}>
-                      <Button variant="outlined" sx={{ minWidth: 32, height: 32, p: 0 }}>
+                      <Button variant="outlined" sx={{ minWidth: 32, height: 32, p: 0 }} disabled={isDisabled}>
                         <RemoveRedEyeOutlinedIcon fontSize="small" />
                       </Button>
                     </Tooltip>

@@ -12,7 +12,8 @@ import { DefaultRootStateProps } from '../../types';
 const initialState: DefaultRootStateProps['organization'] = {
   organization: null,
   roles: [],
-  functools: []
+  functools: [],
+  update_roles: true
 };
 
 const slice = createSlice({
@@ -26,9 +27,13 @@ const slice = createSlice({
       })
       .addCase(getRoles.fulfilled, (state, action) => {
         state.roles = action.payload;
+        state.update_roles = false;
       })
       .addCase(getFunctools.fulfilled, (state, action) => {
         state.functools = action.payload;
+      })
+      .addCase(createRole.fulfilled, (state) => {
+        state.update_roles = true;
       });
   }
 });
@@ -41,10 +46,19 @@ export const getOwn = createAsyncThunk('organization/getOwn', async () => {
   return data;
 });
 
-export const getRoles = createAsyncThunk('organization/getRoles', async () => {
-  const { data } = await axios.get('/v1/organizations/roles');
-  return data;
-});
+export const getRoles = createAsyncThunk(
+  'organization/getRoles',
+  async () => {
+    const { data } = await axios.get('/v1/organizations/roles');
+    return data;
+  },
+  {
+    condition: (_, { getState }) => {
+      const { organization: state } = getState() as any;
+      return state.update_roles;
+    }
+  }
+);
 
 export const getFunctools = createAsyncThunk('organization/getFunctools', async () => {
   const { data } = await axios.get('/v1/organizations/functools');
@@ -52,6 +66,6 @@ export const getFunctools = createAsyncThunk('organization/getFunctools', async 
 });
 
 export const createRole = createAsyncThunk('organization/createRole', async (data: any) => {
-  const { data: responseData } = await axios.get('/v1/organizations/roles/', data);
+  const { data: responseData } = await axios.post('/v1/organizations/roles', data);
   return responseData;
 });

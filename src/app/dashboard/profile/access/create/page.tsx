@@ -2,17 +2,20 @@
 
 import { Button, Checkbox, Grid, OutlinedInput } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import { OrganizationSlice } from 'store/slices';
 import { openSnackbar } from 'store/slices/snackbar';
+import { FunctoolEnum } from 'types/organization';
 import MainCard from 'ui-component/cards/MainCard';
 import Loader from 'ui-component/Loader';
 
 const ProfileAccessCreate = () => {
   const intl = useIntl();
+  const router = useRouter();
   const dispatch = useDispatch();
 
   const { functools } = useSelector((s) => s.organization);
@@ -47,14 +50,13 @@ const ProfileAccessCreate = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(functools);
-
   const submitHandler = async () => {
     try {
       if (!name.trim() || !picked.length) {
         throw Error('dsadas');
       }
       await dispatch(OrganizationSlice.createRole({ name, functools: picked }));
+      router.push('/dashboard/profile/access');
     } catch (err: any) {
       dispatch(
         openSnackbar({
@@ -85,8 +87,8 @@ const ProfileAccessCreate = () => {
     },
     {
       flex: 0.5,
-      field: 'picked',
-      headerName: intl.formatMessage({ id: 'choose' }),
+      field: 'see',
+      headerName: intl.formatMessage({ id: 'look' }),
       type: 'string',
       sortable: false,
       minWidth: 100,
@@ -95,16 +97,69 @@ const ProfileAccessCreate = () => {
       editable: false,
       hideable: false,
       renderCell: ({ row }) => {
-        console.log(row);
         const checked = picked.some((pick) => pick === row.id);
         return (
-          <Checkbox
-            color="primary"
-            checked={checked}
-            onChange={() => {
-              setPicked((state) => (checked ? state.filter((s) => s !== row.id) : [...state, row.id]));
-            }}
-          />
+          row.type === FunctoolEnum.see && (
+            <Checkbox
+              color="primary"
+              checked={checked}
+              onChange={() => {
+                setPicked((state) => (checked ? state.filter((s) => s !== row.id) : [...state, row.id]));
+              }}
+            />
+          )
+        );
+      }
+    },
+    {
+      flex: 0.5,
+      field: 'create_refact',
+      headerName: intl.formatMessage({ id: 'create-edit' }),
+      type: 'string',
+      sortable: false,
+      minWidth: 100,
+      align: 'left',
+      headerAlign: 'left',
+      editable: false,
+      hideable: false,
+      renderCell: ({ row }) => {
+        const checked = picked.some((pick) => pick === row.id);
+        return (
+          row.type === FunctoolEnum.create_refact && (
+            <Checkbox
+              color="primary"
+              checked={checked}
+              onChange={() => {
+                setPicked((state) => (checked ? state.filter((s) => s !== row.id) : [...state, row.id]));
+              }}
+            />
+          )
+        );
+      }
+    },
+    {
+      flex: 0.5,
+      field: 'delete',
+      headerName: intl.formatMessage({ id: 'deletion' }),
+      type: 'string',
+      sortable: false,
+      minWidth: 100,
+      align: 'left',
+      headerAlign: 'left',
+      editable: false,
+      hideable: false,
+      renderCell: ({ row }) => {
+        const checked = picked.some((pick) => pick === row.id);
+        return (
+          row.type === FunctoolEnum.delete && (
+            <Checkbox
+              color="primary"
+              checked={checked}
+              onChange={() => {
+                setPicked((state) => (checked ? state.filter((s) => s !== row.id) : [...state, row.id]));
+              }}
+            />
+          )
         );
       }
     }

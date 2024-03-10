@@ -2,8 +2,11 @@ import { GenericCardProps } from 'types';
 import { PostDataType, Profile, UserProfile } from 'types/user-profile';
 import { OrganizationRole } from './organization';
 
+export type UserMarketplace = { name: string; user_id: number; id: number };
+
 export type UserProps = {
-  marketplaces: any[];
+  marketplaces: UserMarketplace[];
+  services: any[];
 };
 
 export type UserType = 'employee' | 'executor';

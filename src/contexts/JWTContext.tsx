@@ -38,19 +38,16 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-
   useEffect(() => {
     const storageTokens = JSON.parse(localStorage.getItem(StorageNames.token) as string);
     const storageRawTokens = JSON.parse(localStorage.getItem(StorageNames.rawToken) as string);
     const userId = JSON.parse(localStorage.getItem(StorageNames.userId) as string);
 
-
-
     if (userId) {
       setUserId(Number(userId));
     }
     if (storageRawTokens) {
-      setRawToken(storageRawTokens)
+      setRawToken(storageRawTokens);
     }
     if (storageTokens) {
       setToken(storageTokens);
@@ -169,7 +166,6 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
         localStorage.removeItem(key);
       }
     }
-    localStorage.removeItem(StorageNames.token);
   };
 
   return (
