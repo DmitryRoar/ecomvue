@@ -100,7 +100,8 @@ const JWTRegister = ({ ...others }) => {
         })}
         onSubmit={async (values) => {
           try {
-            if (searchParams.get('ref')) {
+            const token = JSON.parse(localStorage.getItem(StorageNames.token) as string);
+            if (searchParams.get('ref') && !token) {
               localStorage.setItem(StorageNames.referal, searchParams.get('ref') as string);
             }
             await onRegister(values.email, values.password);

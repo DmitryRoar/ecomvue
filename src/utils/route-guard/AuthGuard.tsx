@@ -32,12 +32,6 @@ const AuthGuard = ({ children }: PropsWithChildren): JSX.Element => {
     }
   }, [tokens, confirmMail, pathname, router, searchParams]);
 
-  useEffect(() => {
-    if (tokens) {
-      localStorage.removeItem(StorageNames.referal);
-    }
-  }, [tokens]);
-
   return loading ? <Loader /> : <>{children}</>;
 };
 

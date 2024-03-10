@@ -67,12 +67,11 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
       });
     } catch (err: any) {
       // "token_not_valid" -> constants
-      if (err.code === 'token_not_valid') {
-        onRefresh();
-      } else {
-        dispatch({
-          type: LOGOUT
-        });
+      switch (err.code) {
+        case 'token_not_valid':
+          return onRefresh();
+        default:
+          return onLogout();
       }
     } finally {
       setLoading(false);

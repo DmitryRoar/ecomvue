@@ -11,9 +11,9 @@ export default function Layout({ children }: PropsWithChildren) {
   const dispatch = useDispatch();
 
   const fetchData = useCallback(async () => {
-    const token = localStorage.getItem(StorageNames.referal);
-    if (token) {
-      await dispatch(ReferalSlice.setToken({ token }));
+    const referalToken = localStorage.getItem(StorageNames.referal);
+    if (referalToken) {
+      await dispatch(ReferalSlice.setToken({ token: referalToken }));
       localStorage.removeItem(StorageNames.referal);
     }
 

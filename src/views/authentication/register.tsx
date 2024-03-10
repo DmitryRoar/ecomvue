@@ -11,9 +11,7 @@ import AuthRegister from 'components/authentication/auth-forms/AuthRegister';
 import AuthCardWrapper from 'components/authentication/AuthCardWrapper';
 import AuthWrapper1 from 'components/authentication/AuthWrapper1';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { StorageNames } from 'types/user';
 
 // ===============================|| AUTH3 - REGISTER ||=============================== //
 
@@ -21,13 +19,6 @@ const Register = () => {
   const theme = useTheme();
   const searchParams = useSearchParams();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-
-  useEffect(() => {
-    const ref = searchParams.get('ref');
-    if (ref) {
-      localStorage.setItem(StorageNames.referal, ref);
-    }
-  }, []);
 
   return (
     <AuthWrapper1>
