@@ -4,7 +4,7 @@
 - typescript@4.8.4
 - @reduxjs/toolkit@1.8.5
 - react-redux@8.0.4
-- redux-persist@6.0.0
+- redux-persist@6.0.0 (not used)
 
 ## Getting Started
 
@@ -28,7 +28,7 @@ yarn dev
 Для запросов используется собственный инстанс axios (axiosService)
 `./src/utils/axios`
 
-## Стейтменеджмент (Persist Redux)
+## Стейтменеджмент (Redux)
 
 ```js
 import { useSelector, useDispatch } from 'store';
@@ -50,6 +50,7 @@ import { useSelector, useDispatch } from 'store';
 
 ## ENV local example
 
+```md
 NEXT_PUBLIC_API_BASE_URL=
 NEXT_PUBLIC_NAME=
 
@@ -66,6 +67,7 @@ NEXT_PUBLIC_YANDEX_CLIENT_SECRET=
 
 NEXT_PUBLIC_VK_CLIENT_ID=
 NEXT_PUBLIC_VK_CLIENT_SECRET=
+```
 
 ## Packages
 
