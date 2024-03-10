@@ -1,10 +1,12 @@
-import { Grid, LinearProgress, LinearProgressProps, Paper, Typography } from '@mui/material';
+import { Grid, LinearProgress, LinearProgressProps, Typography } from '@mui/material';
 import { Box, useTheme } from '@mui/system';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'store';
+import { gridSpacing } from 'store/constant';
+import { MarketplaceEnum } from 'types/project';
 import SubCard from 'ui-component/cards/SubCard';
-import { CalculateUtils } from 'utils';
+import { NormalizeUtils } from 'utils';
 
 function LinearProgressWithLabel({ value, label, ...other }: LinearProgressProps & { label?: string }) {
   return (
@@ -44,7 +46,9 @@ type FilterMarketplace = {
 
 export const ProfileSectionMarketplaces = () => {
   const theme = useTheme();
+  const { marketplaces } = useSelector((s) => s.user);
   const { projects, types } = useSelector((s) => s.marketplace);
+  console.log(marketplaces);
 
   const filteringMarketplaces = useMemo<FilterMarketplace>(() => {
     const validTypes = types.map((t) => t.type);
@@ -68,66 +72,17 @@ export const ProfileSectionMarketplaces = () => {
             <Grid item>
               <FormattedMessage id="marketplaces" />
             </Grid>
-            <Grid gap={12}>
-              <Grid item container alignItems="center" gap={1} direction="row">
-                <Paper
-                  elevation={3}
-                  sx={{
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    backgroundColor: theme.palette.primary.main,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                />{' '}
-                -
-                <Typography align="left" variant="subtitle1">
-                  <FormattedMessage id="active" />
-                </Typography>
-              </Grid>
-              <Grid item container alignItems="center" gap={1} direction="row">
-                <Paper
-                  elevation={3}
-                  sx={{
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    backgroundColor: theme.palette.primary.dark,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center'
-                  }}
-                />{' '}
-                -
-                <Typography align="left" variant="subtitle1">
-                  <FormattedMessage id="archive" />
-                </Typography>
-              </Grid>
-            </Grid>
           </Grid>
         }
       >
-        <Grid container spacing={2}>
-          {Object.keys(filteringMarketplaces).map((key, idx) => {
-            const stat = filteringMarketplaces[key];
-
-            return (
-              stat.total > 0 && (
-                <Grid item xs={12} md={6} key={idx}>
-                  <Typography variant="body2">{types.find((t) => t.type === key)?.value}</Typography>
-                  <LinearProgressWithLabel
-                    color="primary"
-                    aria-label="junior skill progress"
-                    variant="determinate"
-                    label={stat.total.toString()}
-                    value={CalculateUtils.percentage(stat.active, stat.total)}
-                  />
-                </Grid>
-              )
-            );
-          })}
+        <Grid container spacing={gridSpacing}>
+          {marketplaces.map((marketplace, idx) => (
+            <Grid item key={idx}>
+              <Typography variant="h4">
+                {NormalizeUtils.marketplaceType(marketplace.name as keyof typeof MarketplaceEnum, types)}
+              </Typography>
+            </Grid>
+          ))}
         </Grid>
       </SubCard>
     </Grid>
