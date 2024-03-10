@@ -4,15 +4,16 @@ import { useCallback, useEffect, useState } from 'react';
 
 // material-ui
 import {
-    Autocomplete,
-    Button,
-    Chip,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormHelperText,
-    Grid, TextField
+  Autocomplete,
+  Button,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormHelperText,
+  Grid,
+  TextField
 } from '@mui/material';
 
 import { useFormik } from 'formik';
@@ -79,7 +80,6 @@ const UserAdd = ({ open, handleCloseDialog }: UsersAddProps) => {
     }
   });
   const [rolesOptions, setRolesOptions] = useState<LabelValue[]>([]);
-  const [projectsOptions, setProjectsOptions] = useState<LabelValue[]>([]);
   const { projects, error: marketError } = useSelector((s) => s.marketplace);
   const { roles } = useSelector((s) => s.organization);
 
@@ -107,7 +107,6 @@ const UserAdd = ({ open, handleCloseDialog }: UsersAddProps) => {
 
   const transformData = useCallback(async () => {
     const mappedProjects = projects.map((el: ProjectGeneral) => ({ label: el.name, value: el.id! }));
-    setProjectsOptions(mappedProjects);
     const mappedRoles = roles.map((el: OrganizationRole) => ({ label: el.name, value: el.id }));
     setRolesOptions(mappedRoles);
   }, [projects, roles]);

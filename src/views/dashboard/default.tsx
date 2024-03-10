@@ -1,10 +1,7 @@
 'use client';
 
-// material-ui
 import { Grid } from '@mui/material';
 import { gridSpacing } from 'store/constant';
-
-// ==============================|| DEFAULT DASHBOARD ||============================== //
 
 const Dashboard = () => {
   return (

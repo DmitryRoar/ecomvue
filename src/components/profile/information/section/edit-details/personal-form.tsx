@@ -24,13 +24,13 @@ const ProfilePersonalForm = ({ onSubmit }: PersonalEditProps) => {
   return (
     <Formik
       initialValues={{
-        first_name: user?.first_name,
-        last_name: user?.last_name,
-        pathronymic: user?.pathronymic,
-        country: user?.country,
-        city: user?.city,
+        first_name: user?.first_name ?? '',
+        last_name: user?.last_name ?? '',
+        pathronymic: user?.pathronymic ?? '',
+        country: user?.country ?? '',
+        city: user?.city ?? '',
         birthday: user?.birthday ? DateTime.fromISO(user?.birthday).toJSDate() : null,
-        about_me: user?.about_me
+        about_me: user?.about_me ?? ''
       }}
       validationSchema={Yup.object().shape({
         first_name: Yup.string().notRequired().max(255),

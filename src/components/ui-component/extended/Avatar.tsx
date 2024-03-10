@@ -1,9 +1,9 @@
 import { ReactNode } from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import MuiAvatar, { AvatarProps } from '@mui/material/Avatar';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { useTheme } from '@mui/material/styles';
 
 // types
 import { LinkTarget } from 'types';

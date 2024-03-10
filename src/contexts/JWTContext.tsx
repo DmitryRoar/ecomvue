@@ -8,7 +8,6 @@ import { LOGIN, LOGOUT, UPDATE_USER_PERSONAL } from 'store/actions';
 
 import axios from 'utils/axios';
 
-import { PERSONAL_IMAGE_PREFIX } from 'components/profile/information/summary';
 import { AuthToken, JWTContextType, SocialMediaType } from 'types/auth';
 import { StorageNames } from 'types/user';
 import { IUserDataAPI } from './types';
@@ -54,7 +53,7 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
     } else if (!confirmMail) {
       onLogout();
     }
-  }, []);
+  }, [confirmMail]);
 
   const onGetUser = async (): Promise<void> => {
     try {
@@ -148,7 +147,7 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
 
   const onUpdateAvatar = async (formData: any) => {
     const { data } = await axios.patch('/v1/users/self/', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-    const imageWoOrigin = data.image.replace(PERSONAL_IMAGE_PREFIX, '');
+    const imageWoOrigin = data.image.replace(process.env.NEXT_PUBLIC_MEDIA, '');
     dispatch({
       type: UPDATE_USER_PERSONAL,
       payload: { partUser: { ...data, image: imageWoOrigin } }

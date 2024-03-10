@@ -1,16 +1,14 @@
 'use client';
 
 import UploadTwoToneIcon from '@mui/icons-material/UploadTwoTone';
-import { Avatar, Button, Grid } from '@mui/material';
-import { Formik } from 'formik';
+import { Button, Grid } from '@mui/material';
 import useAuth from 'hooks/useAuth';
 import { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch } from 'store';
-import { gridSpacing } from 'store/constant';
 import { openSnackbar } from 'store/slices/snackbar';
-import * as Yup from 'yup';
-import { PERSONAL_IMAGE_PREFIX } from '../../summary';
+import { RRAvatar } from 'ui-component/avatar';
+import AnimateButton from 'ui-component/extended/AnimateButton';
 
 const ProfileAvatarForm = () => {
   const { user, onUpdateAvatar } = useAuth();
@@ -75,52 +73,94 @@ const ProfileAvatarForm = () => {
     }
   };
 
-  return (
-    <Formik
-      initialValues={{
-        image: user?.image ? `${PERSONAL_IMAGE_PREFIX}${user.image}` : null
-      }}
-      validationSchema={Yup.object().shape({
-        image: Yup.string().notRequired()
-      })}
-      onSubmit={handleSubmit}
-    >
-      {({ values, handleSubmit }) => (
-        <form noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={gridSpacing}>
-            <Grid item xs display="flex" alignItems="center" justifyContent="space-between">
-              <Grid item>
-                <Avatar
-                  alt={user?.first_name}
-                  src={selectedFile ? (URL.createObjectURL(selectedFile) as string) : (values?.image as string)}
-                  sx={{ width: 52, height: 52 }}
-                />
-              </Grid>
-              <Grid item>
-                <input accept="image/*" ref={imageRef} style={{ display: 'none' }} type="file" onChange={handleFileChange} />
-                <Button variant="outlined" color="info" type="button" startIcon={<UploadTwoToneIcon />} onClick={handleFileTrigger}>
-                  <FormattedMessage id="upload" />
-                </Button>
-              </Grid>
-            </Grid>
+  console.log();
 
-            <Grid item xs flexDirection="row" display="flex" justifyContent="space-between" alignItems="center">
-              <Grid item>
-                <Button variant="contained" color="error" type="button" disabled={isDisabled} onClick={cancelHandler}>
-                  <FormattedMessage id="cancel" />
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" color="secondary" type="submit">
-                  <FormattedMessage id="save" />
-                </Button>
-              </Grid>
-            </Grid>
-          </Grid>
-        </form>
-      )}
-    </Formik>
+  return (
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        <RRAvatar
+          src={
+            selectedFile
+              ? (URL.createObjectURL(selectedFile) as string)
+              : user?.image
+                ? `${process.env.NEXT_PUBLIC_MEDIA}${user?.image}`
+                : ''
+          }
+          alt={`${user?.first_name}${user?.email}`}
+          size={100}
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <input accept="image/*" ref={imageRef} style={{ display: 'none' }} type="file" onChange={handleFileChange} />
+        <Button fullWidth variant="outlined" color="info" type="button" startIcon={<UploadTwoToneIcon />} onClick={handleFileTrigger}>
+          <FormattedMessage id="upload" />
+        </Button>
+      </Grid>
+      <Grid item xs={12} display="flex" gap={1}>
+        <Grid item xs={6}>
+          <AnimateButton>
+            <Button fullWidth variant="contained" color="error" onClick={cancelHandler}>
+              <FormattedMessage id="cancel" />
+            </Button>
+          </AnimateButton>
+        </Grid>
+        <Grid item xs={6}>
+          <AnimateButton>
+            <Button fullWidth variant="contained" color="secondary" onClick={handleSubmit}>
+              <FormattedMessage id="save" />
+            </Button>
+          </AnimateButton>
+        </Grid>
+      </Grid>
+    </Grid>
   );
+
+  // return (
+  //   <Formik
+  //     initialValues={{
+  //       image: user?.image ? `${process.env.NEXT_PUBLIC_MEDIA}${user.image}` : null
+  //     }}
+  //     validationSchema={Yup.object().shape({
+  //       image: Yup.string().notRequired()
+  //     })}
+  //     onSubmit={handleSubmit}
+  //   >
+  //     {({ values, handleSubmit }) => (
+  //       <form noValidate onSubmit={handleSubmit}>
+  //         <Grid container spacing={gridSpacing}>
+  //           <Grid item xs display="flex" alignItems="center" justifyContent="space-between">
+  //             <Grid item>
+  //               <RRAvatar
+  //                 src={selectedFile ? (URL.createObjectURL(selectedFile) as string) : (values?.image as string)}
+  //                 alt={`${user?.first_name}${user?.email}`}
+  //                 size={52}
+  //               />
+  //             </Grid>
+  //             <Grid item>
+  //               <input accept="image/*" ref={imageRef} style={{ display: 'none' }} type="file" onChange={handleFileChange} />
+  //               <Button variant="outlined" color="info" type="button" startIcon={<UploadTwoToneIcon />} onClick={handleFileTrigger}>
+  //                 <FormattedMessage id="upload" />
+  //               </Button>
+  //             </Grid>
+  //           </Grid>
+
+  //           <Grid item xs flexDirection="row" display="flex" justifyContent="space-between" alignItems="center">
+  //             <Grid item>
+  //               <Button variant="contained" color="error" type="button" disabled={isDisabled} onClick={cancelHandler}>
+  //                 <FormattedMessage id="cancel" />
+  //               </Button>
+  //             </Grid>
+  //             <Grid item>
+  //               <Button variant="contained" color="secondary" type="submit">
+  //                 <FormattedMessage id="save" />
+  //               </Button>
+  //             </Grid>
+  //           </Grid>
+  //         </Grid>
+  //       </form>
+  //     )}
+  //   </Formik>
+  // );
 };
 
 export default ProfileAvatarForm;

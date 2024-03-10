@@ -41,17 +41,31 @@ import { useSelector, useDispatch } from 'store';
 ## Auth (Authorization via Header)
 
 получаем токены из запроса `/v1/auth/login/`
-<br/>  
+<br/>
 после получае данные пользователя `/v1/users/self/`
 
 инициализируясь контекст получает токен из localStorage, если таковой есть
 
 при каждом обновлении токена, следом же обновляем его в localStorage и делаем запрос на получение данных пользователя
 
-## ENV example
+## ENV local example
 
 NEXT_PUBLIC_API_BASE_URL=
 NEXT_PUBLIC_NAME=
+
+NEXT_PUBLIC_MEDIA_HOSTNAME=
+NEXT_PUBLIC_MEDIA_PORT=
+NEXT_PUBLIC_MEDIA_PROTOCOL=
+NEXT_PUBLIC_MEDIA="${NEXT_PUBLIC_MEDIA_PROTOCOL}://${NEXT_PUBLIC_MEDIA_HOSTNAME}:${NEXT_PUBLIC_MEDIA_PORT}"
+
+NEXT_PUBLIC_MAIL_RU_CLIENT_ID=
+NEXT_PUBLIC_MAIL_RU_SECRET=
+
+NEXT_PUBLIC_YANDEX_CLIENT_ID=
+NEXT_PUBLIC_YANDEX_CLIENT_SECRET=
+
+NEXT_PUBLIC_VK_CLIENT_ID=
+NEXT_PUBLIC_VK_CLIENT_SECRET=
 
 ## Packages
 

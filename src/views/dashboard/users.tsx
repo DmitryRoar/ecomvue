@@ -227,7 +227,7 @@ function EnhancedTableHead({
 const Users = () => {
   const theme = useTheme();
   const intl = useIntl();
-  const { organization: data, roles } = useSelector((s) => s.organization);
+  const { organization: data } = useSelector((s) => s.organization);
   const [open, setOpen] = React.useState(false);
   const handleClickOpenDialog = () => {
     setOpen(true);

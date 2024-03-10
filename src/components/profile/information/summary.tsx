@@ -3,10 +3,9 @@ import { Divider, Grid, List, ListItemButton, ListItemIcon, ListItemSecondaryAct
 
 // project imports
 import useAuth from 'hooks/useAuth';
+import Image from 'next/image';
 import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
-import Avatar from 'ui-component/extended/Avatar';
-
 // assets
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -15,14 +14,13 @@ import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { RRAvatar } from 'ui-component/avatar';
 import VKIcon from 'ui-component/VkIcon';
 import { CoreUtils } from 'utils';
 import { ProfileSectionDetails } from './section/summary/details';
 import { ProfileSectionEducation } from './section/summary/education';
 import { ProfileSectionEmployment } from './section/summary/employment';
 import { ProfileSectionMarketplaces } from './section/summary/marketplaces';
-
-export const PERSONAL_IMAGE_PREFIX = `${process.env.NEXT_PUBLIC_MEDIA_PROTOCOL}://${process.env.NEXT_PUBLIC_MEDIA}`;
 
 type SocialProps = {
   sc_facebook: string | undefined;
@@ -88,12 +86,16 @@ const ProfileSummary = ({ onSwitchTab }: Props) => {
       <Grid item lg={4} xs={12}>
         <SubCard
           title={
-            <Grid container spacing={2} alignItems="center">
+            <Grid container display="flex" alignItems="center" spacing={2}>
               <Grid item>
-                <Avatar alt={user?.name} src={user?.image ? `${PERSONAL_IMAGE_PREFIX}${user.image}` : ''} />
+                <RRAvatar
+                  size={40}
+                  src={user?.image ? `${process.env.NEXT_PUBLIC_MEDIA}${user.image}` : ''}
+                  alt={CoreUtils.concatStrings(user?.name, user?.last_name)}
+                />
               </Grid>
               <Grid item xs zeroMinWidth>
-                <Typography align="left" variant="subtitle1">
+                <Typography align="left" variant="h4">
                   {CoreUtils.concatStrings(user?.first_name, user?.last_name, user?.pathronymic)}
                 </Typography>
               </Grid>

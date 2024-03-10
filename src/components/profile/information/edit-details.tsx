@@ -59,12 +59,12 @@ const ProfileEditDetails = () => {
 
   return (
     <Grid container spacing={gridSpacing}>
-      <Grid item xs={12} md={4}>
-        <SubCard title={<FormattedMessage id="avatar" />}>
+      <Grid item xs={12} md={5}>
+        <SubCard title={<FormattedMessage id="avatar" />} contentSX={{ textAlign: 'center' }}>
           <ProfileAvatarForm />
         </SubCard>
       </Grid>
-      <Grid item xs={12} md={8}>
+      <Grid item xs={12} md={7}>
         <SubCard title={<FormattedMessage id="personal-information" />}>
           <ProfilePersonalForm onSubmit={submitHandler} />
         </SubCard>
