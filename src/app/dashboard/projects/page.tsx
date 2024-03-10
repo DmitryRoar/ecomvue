@@ -42,7 +42,7 @@ const ProjectCreate = () => {
 
   useEffect(() => {
     (async () => {
-      await dispatch(await MarketplaceSlice.getPermissions());
+      await dispatch(MarketplaceSlice.getPermissions());
     })();
   }, [dispatch]);
 

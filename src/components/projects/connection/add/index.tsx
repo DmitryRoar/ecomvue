@@ -1,4 +1,5 @@
 'use client';
+// DEPRECATED
 
 import { useDispatch } from 'store';
 import { MarketplaceSlice } from 'store/slices';

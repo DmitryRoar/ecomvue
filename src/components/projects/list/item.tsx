@@ -1,26 +1,17 @@
-// material-ui
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import { Avatar, Button, Grid, Tooltip, Typography } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import { ProjecetCreateModeNames } from 'app/dashboard/projects/page';
 import { useIntl } from 'react-intl';
-// project imports
 import { gridSpacing } from 'store/constant';
 import { Marketplace } from 'types/marketplace';
 
-// types
-
-// assets
-
-// styles
 const ListWrapper = styled('div')(({ theme }) => ({
   padding: '15px 0',
   borderBottom: theme.palette.mode === 'dark' ? 'none' : '1px solid',
   borderTop: theme.palette.mode === 'dark' ? 'none' : '1px solid',
   borderColor: `${theme.palette.grey[100]}!important`
 }));
-
-// ==============================|| USER CONTACT LIST ||============================== //
 
 interface ItemProps extends Marketplace {
   onActive: () => void;
@@ -34,15 +25,7 @@ const ProjectItem = ({ name, marketplace_type, onSetMode, onActive, ...props }: 
   return (
     <ListWrapper>
       <Grid container alignItems="center" spacing={gridSpacing}>
-        <Grid
-          item
-          xs={12}
-          sm={6}
-          onClick={() => {
-            if (onActive) onActive();
-          }}
-          style={{ cursor: 'pointer' }}
-        >
+        <Grid item xs={12} sm={6} style={{ cursor: 'pointer' }}>
           <Grid container alignItems="center" spacing={gridSpacing} sx={{ flexWrap: 'nowrap' }}>
             <Grid item>
               <Avatar alt={name} sx={{ width: 48, height: 48 }} />
@@ -62,8 +45,8 @@ const ProjectItem = ({ name, marketplace_type, onSetMode, onActive, ...props }: 
           <Grid container spacing={1} sx={{ justifyContent: 'flex-end', [theme.breakpoints.down('md')]: { justifyContent: 'flex-start' } }}>
             <Grid item>
               <Tooltip placement="top" title={intl.formatMessage({ id: 'edit' })}>
-                <Button variant="outlined" sx={{ minWidth: 32, height: 32, p: 0 }} onClick={() => onSetMode('edit')} disabled>
-                  <ModeEditOutlineOutlinedIcon fontSize="small" />
+                <Button variant="outlined" sx={{ minWidth: 32, height: 32, p: 0 }} onClick={() => onActive()}>
+                  <RemoveRedEyeOutlinedIcon fontSize="small" />
                 </Button>
               </Tooltip>
             </Grid>

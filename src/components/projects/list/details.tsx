@@ -14,7 +14,6 @@ import SubCard from 'ui-component/cards/SubCard';
 import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
-import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined';
 import HighlightOffTwoToneIcon from '@mui/icons-material/HighlightOffTwoTone';
 import NotInterestedTwoToneIcon from '@mui/icons-material/NotInterestedTwoTone';
@@ -52,13 +51,11 @@ const ProjectDetails = ({ project, onClose }: Props) => {
   const { types } = useSelector((s) => s.marketplace);
 
   const [showAddInputs, setShowAddInputs] = useState<boolean>(false);
-  const [connections, setConnections] = useState(0);
 
   const [isEdit, setIsEdit] = useState(false);
 
   useEffect(() => {
     setShowAddInputs(false);
-    setConnections(project?.connections?.length ?? 0);
   }, [project]);
 
   return (
@@ -74,13 +71,13 @@ const ProjectDetails = ({ project, onClose }: Props) => {
           <Grid item xs={12}>
             <Grid container alignItems="center" spacing={1}>
               <Grid item>
-                <Avatar alt={project.name} sx={{ width: 64, height: 64 }} />
+                <Avatar alt={project?.name} sx={{ width: 64, height: 64 }} />
               </Grid>
               <Grid item xs zeroMinWidth>
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <Typography variant="h5" component="div" sx={{ fontSize: '1rem' }}>
-                      {project.connections[0]?.name} | {project.name}
+                      das
                     </Typography>
                   </Grid>
                 </Grid>
@@ -99,7 +96,6 @@ const ProjectDetails = ({ project, onClose }: Props) => {
                   variant="outlined"
                   color="warning"
                   onClick={() => setIsEdit((state) => !state)}
-                  disabled={true || showAddInputs}
                   fullWidth
                   startIcon={isEdit ? <CancelOutlinedIcon /> : <ChatBubbleTwoToneIcon />}
                 >
@@ -108,7 +104,7 @@ const ProjectDetails = ({ project, onClose }: Props) => {
               </Grid>
               <Grid item xs={6}>
                 <Button variant="outlined" fullWidth disabled startIcon={<NotInterestedTwoToneIcon />}>
-                  <FormattedMessage id="archive" />
+                  <FormattedMessage id="remove" />
                 </Button>
               </Grid>
             </Grid>
@@ -118,25 +114,6 @@ const ProjectDetails = ({ project, onClose }: Props) => {
             <Divider />
           </Grid>
           {isEdit && <ProjectEdit project={project} onClose={() => {}} />}
-          {connections > 0 && (
-            <>
-              <Grid item xs={12}>
-                <Grid container spacing={1}>
-                  <Grid item>
-                    <CloudDoneOutlinedIcon sx={{ verticalAlign: 'sub', fontSize: '1.125rem', mr: 0.625 }} />
-                  </Grid>
-                  <Grid item xs zeroMinWidth>
-                    <Typography variant="body2">
-                      <FormattedMessage id="connections" />: {connections}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </Grid>
-              <Grid item xs={12}>
-                <Divider />
-              </Grid>
-            </>
-          )}
 
           <Grid item xs={12}>
             <Grid container spacing={1}>

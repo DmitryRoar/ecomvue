@@ -190,7 +190,7 @@ const ProjectCreatePopup = ({ names, onClose }: CreateProps) => {
                 </FormControl>
               </Grid>
 
-              <ConectionInputs baseInputs={userData} onClose={onClose} />
+              <ConectionInputs baseInputs={userData} onClose={onClose} readOnly />
 
               <Grid item xs={12}>
                 <Grid container spacing={1}>

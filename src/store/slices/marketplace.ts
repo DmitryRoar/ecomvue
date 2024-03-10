@@ -93,6 +93,15 @@ export const create = createAsyncThunk('users/create', async (userData: Marketpl
   }
 });
 
+export const editConnectionWb = createAsyncThunk('users/editWb', async (userData: MarketplaceCreate, { rejectWithValue }) => {
+  try {
+    const { data } = await axios.post('/v1/marketplaces/create/', userData);
+    return data;
+  } catch (err) {
+    return rejectWithValue(err);
+  }
+});
+
 export const createWbConnection = createAsyncThunk('users/createWbConnection', async (userData: any, { rejectWithValue }) => {
   try {
     const { data } = await axios.post('/v1/marketplaces/wb/add/', userData);

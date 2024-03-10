@@ -42,10 +42,6 @@ export const ConnectionInputAvito = ({ onSetInput }: ConnectionProps) => {
     }
   }, [searchParams]);
 
-  // const saveIdHandler = () => {
-  //   localStorage.setItem(STORAGE_KEY, pickConnection);
-  // };
-
   useEffect(() => {
     linkDiskHandler();
   }, [linkDiskHandler]);

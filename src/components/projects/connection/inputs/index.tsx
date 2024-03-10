@@ -1,6 +1,7 @@
 'use client';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
+import { OfferTariff } from 'components/projects/offer-tariff';
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch, useSelector } from 'store';
@@ -12,35 +13,6 @@ import { MarketplaceEnum } from 'types/project';
 import { CoreUtils } from 'utils';
 import { ConnectionInputAvito } from './avito';
 import { ConnectionInputWb } from './wb';
-
-type OfferProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: () => Promise<void>;
-};
-
-const OfferTariff = ({ isOpen, onClose, onSubmit }: OfferProps) => {
-  return (
-    <Dialog open={isOpen} onClose={onClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
-      <DialogTitle id="alert-dialog-title">Ошибка :(</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">Для продолжения необходимо повысить тариф.</DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onClose}>Закрыть</Button>
-        <Button
-          onClick={() => {
-            onSubmit();
-            onClose();
-          }}
-          autoFocus
-        >
-          Повысить
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-};
 
 export type ConnectionProps = {
   onSetInput: Dispatch<SetStateAction<any>>;
