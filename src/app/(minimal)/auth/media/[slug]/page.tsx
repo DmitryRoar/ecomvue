@@ -2,7 +2,7 @@
 
 import { DASHBOARD_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
@@ -19,11 +19,13 @@ type Props = {
 
 const AuthMedia = ({ searchParams, params }: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
   const dispatch = useDispatch();
 
   const { onRegisterViaMedia } = useAuth();
 
   const requestHandler = useCallback(async () => {
+    if (pathname === DASHBOARD_PATH) return;
     try {
       const { code } = searchParams;
       const from = params.slug;
