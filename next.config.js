@@ -21,7 +21,6 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: process.env.NEXT_PUBLIC_MEDIA_PROTOCOL,
-        port: process.env.NEXT_PUBLIC_MEDIA_PORT,
         hostname: process.env.NEXT_PUBLIC_MEDIA_HOSTNAME
       }
     ]

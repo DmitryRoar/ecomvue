@@ -104,9 +104,9 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
   const subForm = useMemo(() => {
     switch (baseInputs.marketplace_type) {
       case MarketplaceEnum.wildberries:
-        return <ConnectionInputWb onSetInput={setValue} />;
+        return <ConnectionInputWb isEdit onSetInput={setValue} />;
       case MarketplaceEnum.avito:
-        return <ConnectionInputAvito onSetInput={setValue} />;
+        return <ConnectionInputAvito isEdit onSetInput={setValue} />;
     }
   }, [baseInputs.marketplace_type]);
 

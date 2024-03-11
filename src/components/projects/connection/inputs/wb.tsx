@@ -19,7 +19,7 @@ export const ConnectionInputWb = ({ value: valueProp, isEdit, onSetInput }: Conn
   );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement> | SelectChangeEvent | any, prop: keyof typeof value) => {
-    if (isEdit) return;
+    if (!isEdit) return;
     setValue((state: any) => ({ ...state, [prop]: event?.target.value }));
     onSetInput((state: any) => ({ ...state, connection: { ...state.connection, [prop]: event?.target.value } }));
   };
