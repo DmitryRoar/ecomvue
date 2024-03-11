@@ -2,8 +2,9 @@
 
 import useAuth from 'hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'store';
+import { openSnackbar } from 'store/slices/snackbar';
 import { SocialMediaType } from 'types/auth';
 
 type Props = {
@@ -21,41 +22,35 @@ const AuthMedia = ({ searchParams, params }: Props) => {
 
   const { onRegisterViaMedia } = useAuth();
 
-  // const requestHandler = useCallback(async () => {
-  //   try {
-  //     const { code } = searchParams;
-  //     const from = params.slug;
-  //     if (code && Object.values(SocialMediaType).some((type) => type === from)) {
-  //       await onRegisterViaMedia(from, code);
-  //     }
-  //   } catch (err: any) {
-  //     dispatch(
-  //       openSnackbar({
-  //         open: true,
-  //         message: err?.detail,
-  //         variant: 'alert',
-  //         anchorOrigin: { vertical: 'top', horizontal: 'center' },
-  //         close: false,
-  //         alert: {
-  //           color: 'error'
-  //         }
-  //       })
-  //     );
-  //   } finally {
-  //     router.push('/auth/login');
-  //   }
-
-  // }, [params, searchParams, dispatch, router]);
-
-  const temp = async () => {
-    const { code } = searchParams;
-    const from = params.slug;
-    await onRegisterViaMedia(from, code);
-  };
+  const requestHandler = useCallback(async () => {
+    try {
+      const { code } = searchParams;
+      const from = params.slug;
+      if (code && Object.values(SocialMediaType).some((type) => type === from)) {
+        await onRegisterViaMedia(from, code);
+      } else {
+        router.push('/auth/login');
+      }
+    } catch (err: any) {
+      router.push('/auth/login');
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: err?.detail,
+          variant: 'alert',
+          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          close: false,
+          alert: {
+            color: 'error'
+          }
+        })
+      );
+    }
+  }, [params, searchParams, dispatch, router]);
 
   useEffect(() => {
-    temp();
-  }, []);
+    requestHandler();
+  }, [requestHandler]);
 
   return <></>;
 };

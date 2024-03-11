@@ -1,7 +1,7 @@
 'use client';
 
 import jwt from 'jsonwebtoken';
-import { createContext, PropsWithChildren, useEffect, useReducer, useState } from 'react';
+import { createContext, PropsWithChildren, useCallback, useEffect, useReducer, useState } from 'react';
 
 import accountReducer from 'store/accountReducer';
 import { LOGIN, LOGOUT, UPDATE_USER_PERSONAL } from 'store/actions';
@@ -19,6 +19,7 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
   const [user, dispatch] = useReducer(accountReducer, null);
   const [token, setToken] = useState<AuthToken | null>(null);
   const [userId, setUserId] = useState<number | null>(JSON.parse(localStorage.getItem(StorageNames.userId) as string) || null);
+  const [socialRequested, setSocialRequested] = useState(false);
 
   const [rawToken, setRawToken] = useState<AuthToken | null>(null);
   const confirmMail = JSON.parse(localStorage.getItem(StorageNames.confirmMail) as string);
@@ -116,22 +117,27 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
     localStorage.removeItem(StorageNames.userId);
   };
 
-  const onRegisterViaMedia = async (type: keyof typeof SocialMediaType, code: string): Promise<void> => {
-    const {
-      data: { tokens, ...user }
-    } = await axios.post('/v1/auth/social-media/', {
-      code,
-      social_media_type: type
-    });
+  const onRegisterViaMedia = useCallback(
+    async (type: keyof typeof SocialMediaType, code: string): Promise<void> => {
+      if (socialRequested) return;
+      const {
+        data: { tokens, ...user }
+      } = await axios.post('/v1/auth/social-media/', {
+        code,
+        social_media_type: type
+      });
 
-    setToken(tokens);
-    dispatch({
-      type: LOGIN,
-      payload: {
-        user
-      }
-    });
-  };
+      setToken(tokens);
+      setSocialRequested(true);
+      dispatch({
+        type: LOGIN,
+        payload: {
+          user
+        }
+      });
+    },
+    [socialRequested]
+  );
 
   const onUpdateUser = async (data: Partial<IUserDataAPI>): Promise<void> => {
     try {
