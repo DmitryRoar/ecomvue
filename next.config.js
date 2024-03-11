@@ -15,7 +15,7 @@ const nextConfig = {
     });
     return config;
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   images: {
     remotePatterns: [
