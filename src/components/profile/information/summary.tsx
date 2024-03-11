@@ -13,6 +13,7 @@ import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
+import { useSelector } from 'store';
 import { RRAvatar } from 'ui-component/avatar';
 import VKIcon from 'ui-component/VkIcon';
 import { CoreUtils } from 'utils';
@@ -20,6 +21,7 @@ import { ProfileSectionDetails } from './section/summary/details';
 import { ProfileSectionEducation } from './section/summary/education';
 import { ProfileSectionEmployment } from './section/summary/employment';
 import { ProfileSectionMarketplaces } from './section/summary/marketplaces';
+import { ProfileSectionServices } from './section/summary/services';
 
 type SocialProps = {
   sc_facebook: string | undefined;
@@ -79,6 +81,7 @@ type Props = {
 
 const ProfileSummary = ({ onSwitchTab }: Props) => {
   const { user } = useAuth();
+  const { marketplaces, services } = useSelector((s) => s.user);
 
   return (
     <Grid container spacing={gridSpacing}>
@@ -166,7 +169,8 @@ const ProfileSummary = ({ onSwitchTab }: Props) => {
           <ProfileSectionDetails onSwitchTab={onSwitchTab} user={user} />
           {user?.place_of_study && <ProfileSectionEducation study={{ place: user?.place_of_study, detail: user?.place_of_study_detail }} />}
           {user?.place_of_work && <ProfileSectionEmployment work={{ place: user?.place_of_work, detail: user?.place_of_work_detail }} />}
-          <ProfileSectionMarketplaces />
+          {marketplaces.length > 0 && <ProfileSectionMarketplaces />}
+          {services.length > 0 && <ProfileSectionServices />}
         </Grid>
       </Grid>
     </Grid>

@@ -131,7 +131,7 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
     }
   };
 
-  console.log(value.project.marketplace_type);
+  const accessTypes = [MarketplaceEnum.avito, MarketplaceEnum.wildberries];
 
   return (
     <>
@@ -148,7 +148,7 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
           variant="contained"
           fullWidth
           onClick={submitHandler}
-          disabled={![MarketplaceEnum.avito, MarketplaceEnum.wildberries].includes(value.project.marketplace_type)}
+          disabled={!accessTypes.includes(value.project.marketplace_type as MarketplaceEnum)}
         >
           <FormattedMessage id="save" />
         </Button>
