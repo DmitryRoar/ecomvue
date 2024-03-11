@@ -3,19 +3,19 @@
 import { useState } from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { ButtonBase, Card, CardContent, CardMedia, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // project imports
-import Avatar from 'ui-component/extended/Avatar';
 import { gridSpacing } from 'store/constant';
+import Avatar from 'ui-component/extended/Avatar';
 
 // types
 import { GenericCardProps } from 'types';
 
 // assets
-import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 import EventTwoToneIcon from '@mui/icons-material/EventTwoTone';
+import MoreVertTwoToneIcon from '@mui/icons-material/MoreVertTwoTone';
 
 const backImage = '/assets/images/profile';
 

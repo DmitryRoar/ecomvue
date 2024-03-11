@@ -1,19 +1,19 @@
 'use client';
 
-import { useState, SyntheticEvent } from 'react';
+import { SyntheticEvent, useState } from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Avatar, Button, Card, Grid, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // assets
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import PersonAddTwoToneIcon from '@mui/icons-material/PersonAddTwoTone';
 import PeopleAltTwoToneIcon from '@mui/icons-material/PeopleAltTwoTone';
+import PersonAddTwoToneIcon from '@mui/icons-material/PersonAddTwoTone';
 import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 
-import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import GroupTwoToneIcon from '@mui/icons-material/GroupTwoTone';
 
 // types

@@ -20,7 +20,6 @@ export default function Layout({ children }: PropsWithChildren) {
     await Promise.allSettled([
       dispatch(MarketplaceSlice.getAll()),
       dispatch(MarketplaceSlice.getTypes()),
-      dispatch(MarketplaceSlice.getTypes()),
       dispatch(TariffSlice.getAll()),
       dispatch(OrganizationSlice.getOwn())
     ]);

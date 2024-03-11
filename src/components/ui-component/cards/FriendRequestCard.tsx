@@ -3,17 +3,17 @@
 import { useState } from 'react';
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
 import { Avatar, Button, Card, Grid, IconButton, ListItemIcon, Menu, MenuItem, Typography } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
 // project import
 import { gridSpacing } from 'store/constant';
 
 // assets
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import GroupTwoToneIcon from '@mui/icons-material/GroupTwoTone';
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 
 // types
 import { FriendRequestCardProps } from 'types/user';

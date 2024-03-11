@@ -3,20 +3,20 @@
 import { useState } from 'react';
 
 // material-ui
+import { Avatar, Button, Card, Grid, IconButton, ListItemIcon, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Button, Card, Grid, IconButton, ListItemIcon, Menu, MenuItem, Typography, Tooltip } from '@mui/material';
 
 // project imports
 import { gridSpacing } from 'store/constant';
 
 // assets
+import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import PinDropTwoToneIcon from '@mui/icons-material/PinDropTwoTone';
 import VideoCallTwoToneIcon from '@mui/icons-material/VideoCallTwoTone';
-import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
 
-import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import FavoriteTwoToneIcon from '@mui/icons-material/FavoriteTwoTone';
 import GroupTwoToneIcon from '@mui/icons-material/GroupTwoTone';
 
 const avatarImage = '/assets/images/users';

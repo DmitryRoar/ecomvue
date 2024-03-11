@@ -9,8 +9,6 @@ import VKLogo from '../../../../public/assets/images/logos/vk.svg';
 import YandexLogo from '../../../../public/assets/images/logos/ya.svg';
 
 const AuthSignInButtons = () => {
-  const origin = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
-
   return (
     <>
       <Typography variant="subtitle2" align="center" sx={{ marginBottom: '8px' }}>
