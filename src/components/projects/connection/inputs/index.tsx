@@ -3,7 +3,7 @@
 import { Button, Grid } from '@mui/material';
 import { OfferTariff } from 'components/projects/offer-tariff';
 import { Dispatch, SetStateAction, useCallback, useEffect, useMemo, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'store';
 import { MarketplaceSlice, TariffSlice } from 'store/slices';
 import { addConnection } from 'store/slices/marketplace';
@@ -28,7 +28,7 @@ export type ConectionEntityProps = {
 
 type Props = {
   baseInputs: MarketplaceCreate;
-  marketplace_type?: keyof typeof MarketplaceEnum;
+  marketplace_type: keyof typeof MarketplaceEnum;
   isEdit?: boolean;
   onClose: () => void;
 };
@@ -36,6 +36,7 @@ type Props = {
 export const ConectionInputs = ({ onClose, isEdit, marketplace_type, baseInputs }: Props) => {
   // musor
   const dispatch = useDispatch();
+  const intl = useIntl();
   const { organization } = useSelector((s) => s.organization);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -62,44 +63,43 @@ export const ConectionInputs = ({ onClose, isEdit, marketplace_type, baseInputs 
 
   const submitHandler = async () => {
     try {
-      if (CoreUtils.areAllFieldsFilled(value.project) && CoreUtils.areAllFieldsFilled(value.connection)) {
-        // eslint-disable-next-line
-        const { id } = await dispatch(MarketplaceSlice.create({ ...value.project, organization_id: organization!.my.id }) as any).unwrap();
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { token, ...connection } = await dispatch(
-          submitConnectionByType({ ...(value.connection as any), marketplace_id: id }) as any
-        ).unwrap();
-        dispatch(addConnection({ marketplace_id: id, connection }));
-        onClose();
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: 'Маркетплейс успешно создан',
-            variant: 'alert',
-            anchorOrigin: { vertical: 'top', horizontal: 'center' },
-            close: false,
-            alert: {
-              color: 'success'
-            }
-          })
-        );
-      } else {
-        dispatch(
-          openSnackbar({
-            open: true,
-            message: 'Заполните все поля',
-            variant: 'alert',
-            anchorOrigin: { vertical: 'top', horizontal: 'center' },
-            close: false,
-            alert: {
-              color: 'error'
-            }
-          })
-        );
+      if (!CoreUtils.areAllFieldsFilled(value.project) || !CoreUtils.areAllFieldsFilled(value.connection)) {
+        throw Error(intl.formatMessage({ id: 'fill-all-fields' }));
       }
-    } catch (err) {
+
+      const { id } = await dispatch(MarketplaceSlice.create({ ...value.project, organization_id: organization!.my.id }) as any).unwrap();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { token, ...connection } = await dispatch(
+        submitConnectionByType({ ...(value.connection as any), marketplace_id: id }) as any
+      ).unwrap();
+      onClose();
+      dispatch(addConnection({ marketplace_id: id, connection }));
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: 'Маркетплейс успешно создан',
+          variant: 'alert',
+          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          close: false,
+          alert: {
+            color: 'success'
+          }
+        })
+      );
+    } catch (err: any) {
       setShowPopup(true);
-      console.log(err);
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: err?.message,
+          variant: 'alert',
+          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          close: false,
+          alert: {
+            color: 'error'
+          }
+        })
+      );
     }
   };
 

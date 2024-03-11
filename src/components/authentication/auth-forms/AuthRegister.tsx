@@ -5,19 +5,19 @@ import React, { SyntheticEvent, useState } from 'react';
 
 // material-ui
 import {
-  Box,
-  Button,
-  Checkbox,
-  Dialog,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Grid,
-  IconButton,
-  InputAdornment,
-  InputLabel,
-  OutlinedInput,
-  Typography
+    Box,
+    Button,
+    Checkbox,
+    Dialog,
+    FormControl,
+    FormControlLabel,
+    FormHelperText,
+    Grid,
+    IconButton,
+    InputAdornment,
+    InputLabel,
+    OutlinedInput,
+    Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -52,6 +52,7 @@ const JWTRegister = ({ ...others }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [checked, setChecked] = useState(true);
   const [termsModalIsOpened, setTermsModalIsOpened] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const [strength, setStrength] = React.useState(0);
   const [level, setLevel] = React.useState<StringColorProps>();
@@ -100,6 +101,7 @@ const JWTRegister = ({ ...others }) => {
         })}
         onSubmit={async (values) => {
           try {
+            setIsSubmit(true);
             const token = JSON.parse(localStorage.getItem(StorageNames.token) as string);
             if (searchParams.get('ref') && !token) {
               localStorage.setItem(StorageNames.referal, searchParams.get('ref') as string);
@@ -107,6 +109,7 @@ const JWTRegister = ({ ...others }) => {
             await onRegister(values.email, values.password);
             router.push('/auth/code-verification');
           } catch (err: any) {
+            setIsSubmit(false);
             if (err) {
               dispatch(
                 openSnackbar({
@@ -124,7 +127,7 @@ const JWTRegister = ({ ...others }) => {
           }
         }}
       >
-        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+        {({ errors, handleBlur, handleChange, handleSubmit, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-email-register">
@@ -174,7 +177,6 @@ const JWTRegister = ({ ...others }) => {
                     </IconButton>
                   </InputAdornment>
                 }
-                inputProps={{}}
               />
               {touched.password && errors.password && (
                 <FormHelperText error id="standard-weight-helper-text-password-register">
@@ -221,7 +223,7 @@ const JWTRegister = ({ ...others }) => {
 
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
-                <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
+                <Button disableElevation disabled={isSubmit} fullWidth size="large" type="submit" variant="contained" color="secondary">
                   <FormattedMessage id="register" />
                 </Button>
               </AnimateButton>

@@ -61,9 +61,10 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
     try {
       setLoading(true);
       const { data: user } = await axios.get('/v1/users/self/');
+      const imageWoOrigin = user?.image ? CoreUtils.imageWoOrigin(user.image) : null;
       dispatch({
         type: LOGIN,
-        payload: { user: { ...user, image: CoreUtils.imageWoOrigin(user.image) } }
+        payload: { user: { ...user, image: imageWoOrigin } }
       });
     } catch (err: any) {
       // "token_not_valid" -> constants

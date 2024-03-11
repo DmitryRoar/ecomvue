@@ -2,19 +2,20 @@
 
 import { useState } from 'react';
 
-// material-ui
 import { Button, Grid, Stack, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
-// third-party
 import { DASHBOARD_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { FormattedMessage } from 'react-intl';
 import OtpInput from 'react18-input-otp';
+import { useDispatch } from 'store';
+import { openSnackbar } from 'store/slices/snackbar';
 
 const AuthCodeVerification = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [otp, setOtp] = useState<string>('');
   const { onConfirmEmail } = useAuth();
   const router = useRouter();
@@ -24,8 +25,19 @@ const AuthCodeVerification = () => {
     try {
       await onConfirmEmail(otp);
       router.push(DASHBOARD_PATH);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      dispatch(
+        openSnackbar({
+          open: true,
+          message: err?.details,
+          variant: 'alert',
+          anchorOrigin: { vertical: 'top', horizontal: 'center' },
+          close: false,
+          alert: {
+            color: 'error'
+          }
+        })
+      );
     } finally {
       setOtp('');
     }
