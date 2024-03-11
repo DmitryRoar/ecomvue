@@ -131,6 +131,8 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
     }
   };
 
+  console.log(value.project.marketplace_type);
+
   return (
     <>
       <OfferTariff
@@ -142,7 +144,12 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
       />
       {subForm}
       <Grid item xs={12}>
-        <Button variant="contained" fullWidth onClick={submitHandler}>
+        <Button
+          variant="contained"
+          fullWidth
+          onClick={submitHandler}
+          disabled={![MarketplaceEnum.avito, MarketplaceEnum.wildberries].includes(value.project.marketplace_type)}
+        >
           <FormattedMessage id="save" />
         </Button>
       </Grid>
