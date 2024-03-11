@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
-import { SocialMediaType, SocialMediaType } from 'types/auth';
+import { SocialMediaType } from 'types/auth';
 
 type Props = {
   searchParams: {
