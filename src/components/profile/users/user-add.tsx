@@ -106,7 +106,6 @@ const UserAdd = ({ open, handleCloseDialog }: UsersAddProps) => {
   }, [dispatch, marketError]);
 
   const transformData = useCallback(async () => {
-    const mappedProjects = projects.map((el: ProjectGeneral) => ({ label: el.name, value: el.id! }));
     const mappedRoles = roles.map((el: OrganizationRole) => ({ label: el.name, value: el.id }));
     setRolesOptions(mappedRoles);
   }, [projects, roles]);

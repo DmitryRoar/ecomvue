@@ -6,16 +6,9 @@ import { MarketplaceEnum } from 'types/project';
 import SubCard from 'ui-component/cards/SubCard';
 import { NormalizeUtils } from 'utils';
 
-type FilterMarketplace = {
-  [key: string]: {
-    active: number;
-    total: number;
-  };
-};
-
 export const ProfileSectionMarketplaces = () => {
   const { marketplaces } = useSelector((s) => s.user);
-  const { projects, types } = useSelector((s) => s.marketplace);
+  const { types } = useSelector((s) => s.marketplace);
 
   return (
     <Grid item xs={12}>

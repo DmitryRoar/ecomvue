@@ -16,7 +16,7 @@ const ProfileAvatarForm = () => {
   const dispatch = useDispatch();
 
   let imageRef = useRef<HTMLInputElement>(null);
-  const [isDisabled, setIsDisabled] = useState(true);
+  const [_, setIsDisabled] = useState(true);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (e: any) => {

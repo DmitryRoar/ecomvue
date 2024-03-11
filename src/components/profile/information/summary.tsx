@@ -3,7 +3,6 @@ import { Divider, Grid, List, ListItemButton, ListItemIcon, ListItemSecondaryAct
 
 // project imports
 import useAuth from 'hooks/useAuth';
-import Image from 'next/image';
 import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
 // assets
@@ -14,8 +13,8 @@ import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { RRAvatar } from 'ui-component/avatar';
 import VKIcon from 'ui-component/VkIcon';
+import { RRAvatar } from 'ui-component/avatar';
 import { CoreUtils } from 'utils';
 import { ProfileSectionDetails } from './section/summary/details';
 import { ProfileSectionEducation } from './section/summary/education';

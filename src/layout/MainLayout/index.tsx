@@ -90,27 +90,12 @@ const MainLayout: FC<Props> = ({ children }) => {
   const condition = layout === LAYOUT_CONST.HORIZONTAL_LAYOUT && !matchDownMd;
 
   useEffect(() => {
-    if (drawerType === LAYOUT_CONST.DEFAULT_DRAWER) {
-      dispatch(openDrawer(true));
-    } else {
+    if (drawerType !== LAYOUT_CONST.DEFAULT_DRAWER) {
       dispatch(openDrawer(false));
+    } else {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drawerType]);
-
-  useEffect(() => {
-    if (drawerType === LAYOUT_CONST.DEFAULT_DRAWER) {
-      dispatch(openDrawer(true));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (matchDownMd) {
-      dispatch(openDrawer(true));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matchDownMd]);
 
   const header = useMemo(
     () => (

@@ -50,13 +50,13 @@ const ProjectDetails = ({ project, onClose }: Props) => {
   const intl = useIntl();
   const { types } = useSelector((s) => s.marketplace);
 
-  const [showAddInputs, setShowAddInputs] = useState<boolean>(false);
+  // const [showAddInputs, setShowAddInputs] = useState<boolean>(false);
 
   const [isEdit, setIsEdit] = useState(false);
 
-  useEffect(() => {
-    setShowAddInputs(false);
-  }, [project]);
+  // useEffect(() => {
+  //   setShowAddInputs(false);
+  // }, [project]);
 
   return (
     <ElevationScroll>

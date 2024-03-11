@@ -39,6 +39,7 @@ const ProfilePage = () => {
 
   const fetchData = useCallback(async () => {
     await dispatch(UserSlice.getMarkets());
+    await dispatch(UserSlice.getDefaultServices());
     await dispatch(UserSlice.getServices());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

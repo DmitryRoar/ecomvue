@@ -6,7 +6,8 @@ export type UserMarketplace = { name: string; user_id: number; id: number };
 
 export type UserProps = {
   marketplaces: UserMarketplace[];
-  services: any[];
+  services: UserMarketplace[];
+  defaultServices: string[];
 };
 
 export type UserType = 'employee' | 'executor';
