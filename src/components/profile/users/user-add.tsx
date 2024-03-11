@@ -23,7 +23,6 @@ import { dispatch, useSelector } from 'store';
 import { ReferalSlice } from 'store/slices';
 import { openSnackbar } from 'store/slices/snackbar';
 import { OrganizationRole } from 'types/organization';
-import { ProjectGeneral } from 'types/project';
 import { ICreateReferal, LabelValue } from 'types/referal';
 import { UsersAddProps } from 'types/user';
 import * as Yup from 'yup';
@@ -108,7 +107,7 @@ const UserAdd = ({ open, handleCloseDialog }: UsersAddProps) => {
   const transformData = useCallback(async () => {
     const mappedRoles = roles.map((el: OrganizationRole) => ({ label: el.name, value: el.id }));
     setRolesOptions(mappedRoles);
-  }, [projects, roles]);
+  }, [roles]);
 
   useEffect(() => {
     transformData();

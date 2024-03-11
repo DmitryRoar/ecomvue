@@ -1,4 +1,4 @@
-import { cloneElement, ReactElement, SyntheticEvent, useEffect, useState } from 'react';
+import { cloneElement, ReactElement, SyntheticEvent, useState } from 'react';
 
 // material-ui
 import { Avatar, Button, Divider, Grid, IconButton, Typography } from '@mui/material';

@@ -3,18 +3,18 @@ import React from 'react';
 
 // material-ui
 import {
-    Box,
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Typography
+  Box,
+  Button,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -66,10 +66,10 @@ const JWTLogin = ({ loginProp, ...others }: { loginProp?: number }) => {
         throw Error(intl.formatMessage({ id: 'enter-correct-values' }));
       } else {
         await onLogin(values.email, values.password);
-        const referal = localStorage.getItem(StorageNames.referal)
+        const referal = localStorage.getItem(StorageNames.referal);
         if (referal) {
-          await dispatch(ReferalSlice.setToken({token: referal}));
-          localStorage.removeItem(StorageNames.referal)
+          await dispatch(ReferalSlice.setToken({ token: referal }));
+          localStorage.removeItem(StorageNames.referal);
         }
       }
     } catch (err: any) {

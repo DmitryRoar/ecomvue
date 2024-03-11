@@ -16,7 +16,7 @@ const ProfileAvatarForm = () => {
   const dispatch = useDispatch();
 
   let imageRef = useRef<HTMLInputElement>(null);
-  const [_, setIsDisabled] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleFileChange = (e: any) => {
@@ -58,6 +58,7 @@ const ProfileAvatarForm = () => {
         })
       );
     } catch (error: any) {
+      setSelectedFile(null);
       dispatch(
         openSnackbar({
           open: true,
@@ -70,6 +71,8 @@ const ProfileAvatarForm = () => {
           }
         })
       );
+    } finally {
+      setIsDisabled(false);
     }
   };
 
@@ -92,21 +95,29 @@ const ProfileAvatarForm = () => {
       </Grid>
       <Grid item xs={12}>
         <input accept="image/*" ref={imageRef} style={{ display: 'none' }} type="file" onChange={handleFileChange} />
-        <Button fullWidth variant="outlined" color="info" type="button" startIcon={<UploadTwoToneIcon />} onClick={handleFileTrigger}>
+        <Button
+          fullWidth
+          variant="outlined"
+          color="info"
+          type="button"
+          startIcon={<UploadTwoToneIcon />}
+          disabled={isDisabled}
+          onClick={handleFileTrigger}
+        >
           <FormattedMessage id="upload" />
         </Button>
       </Grid>
       <Grid item xs={12} display="flex" gap={1}>
         <Grid item xs={6}>
           <AnimateButton>
-            <Button fullWidth variant="contained" color="error" onClick={cancelHandler}>
+            <Button fullWidth variant="contained" color="error" onClick={cancelHandler} disabled={isDisabled}>
               <FormattedMessage id="cancel" />
             </Button>
           </AnimateButton>
         </Grid>
         <Grid item xs={6}>
           <AnimateButton>
-            <Button fullWidth variant="contained" color="secondary" onClick={handleSubmit}>
+            <Button fullWidth variant="contained" color="secondary" onClick={handleSubmit} disabled={isDisabled}>
               <FormattedMessage id="save" />
             </Button>
           </AnimateButton>
