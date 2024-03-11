@@ -79,7 +79,7 @@ const UserAdd = ({ open, handleCloseDialog }: UsersAddProps) => {
     }
   });
   const [rolesOptions, setRolesOptions] = useState<LabelValue[]>([]);
-  const { projects, error: marketError } = useSelector((s) => s.marketplace);
+  const { error: marketError } = useSelector((s) => s.marketplace);
   const { roles } = useSelector((s) => s.organization);
 
   const handleChange = (value: any, field: any) => {

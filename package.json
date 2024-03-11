@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -H 0.0.0.0",
     "lint": "next lint",
     "newlint": "eslint src --fix",
     "format": "prettier --write 'src/**/*.{ts,tsx}'",
@@ -14,10 +14,7 @@
     "prepare": ""
   },
   "lint-staged": {
-    "src/**/*.(js|jsx|ts|tsx)": [
-      "prettier --write",
-      "npm run newlint"
-    ]
+    "src/**/*.(js|jsx|ts|tsx)": ["prettier --write", "npm run newlint"]
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
