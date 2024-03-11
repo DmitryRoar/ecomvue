@@ -1,10 +1,12 @@
-import { Grid, Typography } from '@mui/material';
+import { Chip, Grid, useTheme } from '@mui/material';
 import { FormattedMessage } from 'react-intl';
 import { useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import SubCard from 'ui-component/cards/SubCard';
+import { ColorUtils } from 'utils';
 
 export const ProfileSectionServices = () => {
+  const theme = useTheme();
   const { services } = useSelector((s) => s.user);
 
   return (
@@ -21,7 +23,7 @@ export const ProfileSectionServices = () => {
         <Grid container spacing={gridSpacing}>
           {services.map((service, idx) => (
             <Grid item key={idx}>
-              <Typography variant="h4">{service.name}</Typography>
+              <Chip label={service.name} style={theme.typography.h4} size="medium" color={ColorUtils.getRandomChip()} />
             </Grid>
           ))}
         </Grid>
