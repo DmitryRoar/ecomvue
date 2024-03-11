@@ -17,4 +17,4 @@ export const isObject = (data: any) => {
   }
 };
 
-export const imageWoOrigin = (image) => image.replace(process.env.NEXT_PUBLIC_MEDIA, '');
+export const imageWoOrigin = (image: string) => image.replace(process.env.NEXT_PUBLIC_MEDIA as string, '');

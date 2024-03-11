@@ -1,19 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-console.log(
-  JSON.stringify({
-    images: {
-      domains: [process.env.NEXT_PUBLIC_MEDIA],
-      remotePatterns: [
-        {
-          hostname: 'ecomvue.com',
-          protocol: 'https'
-        }
-      ]
-    }
-  })
-);
-
 const nextConfig = {
   webpack(config) {
     config.module.rules.push({
@@ -32,11 +18,10 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: [process.env.NEXT_PUBLIC_MEDIA],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'ecomvue.com'
+        protocol: process.env.NEXT_PUBLIC_MEDIA_PROTOCOL,
+        hostname: process.env.NEXT_PUBLIC_MEDIA_HOSTNAME
       }
     ]
   },
