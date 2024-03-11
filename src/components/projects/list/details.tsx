@@ -22,6 +22,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'store';
 import { Marketplace } from 'types/marketplace';
 import { NormalizeUtils } from 'utils';
+import { ReadConnection } from '../connection/inputs/read';
 import ProjectEdit from './edit';
 
 // sticky details card
@@ -57,6 +58,7 @@ const ProjectDetails = ({ project, onClose }: Props) => {
   // useEffect(() => {
   //   setShowAddInputs(false);
   // }, [project]);
+  console.log(project);
 
   return (
     <ElevationScroll>
@@ -114,6 +116,8 @@ const ProjectDetails = ({ project, onClose }: Props) => {
             <Divider />
           </Grid>
           {isEdit && <ProjectEdit project={project} onClose={() => {}} />}
+
+          <ReadConnection value={project.connections} marketplace_type={project.marketplace_type} />
 
           <Grid item xs={12}>
             <Grid container spacing={1}>

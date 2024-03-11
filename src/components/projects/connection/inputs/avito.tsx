@@ -3,7 +3,7 @@
 import { FormControl, Grid, InputLabel, OutlinedInput, SelectChangeEvent } from '@mui/material';
 import { useSearchParams } from 'next/navigation';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { CreateConnectionAvito } from 'types/marketplace';
 import axiosServices from 'utils/axios';
 import { ConnectionProps } from '.';
@@ -11,6 +11,7 @@ import { ConnectionProps } from '.';
 const STORAGE_KEY = 'avito-connection-id';
 
 export const ConnectionInputAvito = ({ onSetInput }: ConnectionProps) => {
+  const intl = useIntl();
   const searchParams = useSearchParams();
 
   const [value, setValue] = useState<CreateConnectionAvito>({
@@ -53,7 +54,12 @@ export const ConnectionInputAvito = ({ onSetInput }: ConnectionProps) => {
           <InputLabel>
             <FormattedMessage id="name" />
           </InputLabel>
-          <OutlinedInput value={value.name} onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'name')} type="text" />
+          <OutlinedInput
+            value={value.name}
+            label={intl.formatMessage({ id: 'name' })}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'name')}
+            type="text"
+          />
         </FormControl>
       </Grid>
       <Grid item xs={12}>
@@ -62,6 +68,7 @@ export const ConnectionInputAvito = ({ onSetInput }: ConnectionProps) => {
             <FormattedMessage id="client-id" />
           </InputLabel>
           <OutlinedInput
+            label={intl.formatMessage({ id: 'client-id' })}
             value={value.client_id}
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'client_id')}
             type="text"
@@ -74,6 +81,7 @@ export const ConnectionInputAvito = ({ onSetInput }: ConnectionProps) => {
             <FormattedMessage id="client-secret" />
           </InputLabel>
           <OutlinedInput
+            label={intl.formatMessage({ id: 'client-secret' })}
             value={value.client_secret}
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'client_secret')}
             type="text"

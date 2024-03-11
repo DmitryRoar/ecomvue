@@ -6,17 +6,20 @@ import { CreateConnectionWb } from 'types/marketplace';
 import { ProjectPermission } from 'types/project';
 import { ConnectionProps } from '.';
 
-export const ConnectionInputWb = ({ onSetInput }: ConnectionProps) => {
+export const ConnectionInputWb = ({ value: valueProp, isEdit, onSetInput }: ConnectionProps) => {
   const intl = useIntl();
   const { permissions } = useSelector((s) => s.marketplace);
 
-  const [value, setValue] = useState<CreateConnectionWb>({
-    name: '',
-    permissions: [],
-    token: ''
-  });
+  const [value, setValue] = useState<CreateConnectionWb>(
+    valueProp ?? {
+      name: '',
+      permissions: [],
+      token: ''
+    }
+  );
 
   const handleChange = (event: ChangeEvent<HTMLInputElement> | SelectChangeEvent | any, prop: keyof typeof value) => {
+    if (isEdit) return;
     setValue((state: any) => ({ ...state, [prop]: event?.target.value }));
     onSetInput((state: any) => ({ ...state, connection: { ...state.connection, [prop]: event?.target.value } }));
   };
@@ -29,6 +32,7 @@ export const ConnectionInputWb = ({ onSetInput }: ConnectionProps) => {
             <FormattedMessage id="name" />
           </InputLabel>
           <OutlinedInput
+            readOnly={!isEdit}
             label={intl.formatMessage({ id: 'name' })}
             value={value.name}
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'name')}
@@ -39,6 +43,7 @@ export const ConnectionInputWb = ({ onSetInput }: ConnectionProps) => {
       <Grid item xs={12}>
         <Autocomplete
           multiple
+          readOnly={!isEdit}
           disableCloseOnSelect
           options={permissions}
           defaultValue={[]}
@@ -66,6 +71,7 @@ export const ConnectionInputWb = ({ onSetInput }: ConnectionProps) => {
             <FormattedMessage id="api-key" />
           </InputLabel>
           <OutlinedInput
+            readOnly={!isEdit}
             label={intl.formatMessage({ id: 'api-key' })}
             value={value.token}
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'token')}
