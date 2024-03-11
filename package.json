@@ -12,7 +12,10 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "src/**/*.(js|jsx|ts|tsx)": ["prettier --write", "npm run newlint"]
+    "src/**/*.(js|jsx|ts|tsx)": [
+      "prettier --write",
+      "npm run newlint"
+    ]
   },
   "dependencies": {
     "@emotion/cache": "^11.11.0",
@@ -82,7 +85,6 @@
     "eslint-plugin-prettier": "^5.0.0",
     "husky": "^8.0.3",
     "lint-staged": "^15.2.2",
-    "ngrok": "^5.0.0-beta.2",
     "prettier": "^3.0.2",
     "sass": "^1.57.1",
     "typescript": "4.8.4"
