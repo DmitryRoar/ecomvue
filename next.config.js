@@ -26,9 +26,9 @@ const nextConfig = {
     ]
   },
   i18n: {
-    locales: ['de'],
-    defaultLocale: 'de',
-    localeDetection: false
+    locales: ['ru', 'en'],
+    defaultLocale: 'ru',
+    localeDetection: true
   },
   async redirects() {
     return [

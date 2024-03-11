@@ -1,11 +1,12 @@
 'use client';
 
+import { DASHBOARD_PATH } from 'config';
 import useAuth from 'hooks/useAuth';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useDispatch } from 'store';
 import { openSnackbar } from 'store/slices/snackbar';
-import { SocialMediaType } from 'types/auth';
+import { SocialMediaType, SocialMediaType } from 'types/auth';
 
 type Props = {
   searchParams: {
@@ -22,13 +23,13 @@ const AuthMedia = ({ searchParams, params }: Props) => {
 
   const { onRegisterViaMedia } = useAuth();
 
-  const requestHandler = async () => {
+  const requestHandler = useCallback(async () => {
     try {
       const { code } = searchParams;
       const from = params.slug;
-
       if (code && Object.values(SocialMediaType).some((type) => type === from)) {
         await onRegisterViaMedia(from, code);
+        router.push(DASHBOARD_PATH);
       } else {
         router.push('/auth/login');
       }
@@ -47,12 +48,11 @@ const AuthMedia = ({ searchParams, params }: Props) => {
         })
       );
     }
-  };
+  }, [params, searchParams, dispatch, router]);
 
   useEffect(() => {
     requestHandler();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [requestHandler]);
 
   return <></>;
 };

@@ -148,7 +148,6 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
   const onUpdateAvatar = async (formData: any) => {
     const { data } = await axios.patch('/v1/users/self/', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
     const imageWoOrigin = data.image.replace(process.env.NEXT_PUBLIC_MEDIA, '');
-    console.log(imageWoOrigin);
 
     dispatch({
       type: UPDATE_USER_PERSONAL,
