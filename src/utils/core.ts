@@ -16,3 +16,5 @@ export const isObject = (data: any) => {
     return data;
   }
 };
+
+export const imageWoOrigin = (image) => image.replace(process.env.NEXT_PUBLIC_MEDIA, '');

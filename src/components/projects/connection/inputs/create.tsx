@@ -1,3 +1,6 @@
 import { ConectionEntityProps } from '.';
 
-export const CreateConnection = ({}: ConectionEntityProps) => {};
+export const CreateConnection = ({ marketplace_type }: ConectionEntityProps) => {
+  // return <ConectionInputs />;
+  return <></>;
+};

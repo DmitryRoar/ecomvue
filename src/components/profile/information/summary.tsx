@@ -82,6 +82,7 @@ type Props = {
 const ProfileSummary = ({ onSwitchTab }: Props) => {
   const { user } = useAuth();
   const { marketplaces, services } = useSelector((s) => s.user);
+  console.log(user?.image);
 
   return (
     <Grid container spacing={gridSpacing}>

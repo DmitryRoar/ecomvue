@@ -10,6 +10,7 @@ import axios from 'utils/axios';
 
 import { AuthToken, JWTContextType, SocialMediaType } from 'types/auth';
 import { StorageNames } from 'types/user';
+import { CoreUtils } from 'utils';
 import { IUserDataAPI } from './types';
 
 const JWTContext = createContext<JWTContextType | null>(null);
@@ -60,10 +61,9 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
     try {
       setLoading(true);
       const { data: user } = await axios.get('/v1/users/self/');
-
       dispatch({
         type: LOGIN,
-        payload: { user }
+        payload: { user: { ...user, image: CoreUtils.imageWoOrigin(user.image) } }
       });
     } catch (err: any) {
       // "token_not_valid" -> constants
@@ -153,11 +153,10 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
 
   const onUpdateAvatar = async (formData: any) => {
     const { data } = await axios.patch('/v1/users/self/', formData, { headers: { 'Content-Type': 'multipart/form-data' } });
-    const imageWoOrigin = data.image.replace(process.env.NEXT_PUBLIC_MEDIA, '');
 
     dispatch({
       type: UPDATE_USER_PERSONAL,
-      payload: { partUser: { ...data, image: imageWoOrigin } }
+      payload: { partUser: { ...data, image: CoreUtils.imageWoOrigin(data.image) } }
     });
   };
 

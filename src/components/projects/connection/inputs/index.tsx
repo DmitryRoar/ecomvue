@@ -28,10 +28,12 @@ export type ConectionEntityProps = {
 
 type Props = {
   baseInputs: MarketplaceCreate;
+  marketplace_type?: keyof typeof MarketplaceEnum;
+  isEdit?: boolean;
   onClose: () => void;
 };
 
-export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
+export const ConectionInputs = ({ onClose, isEdit, marketplace_type, baseInputs }: Props) => {
   // musor
   const dispatch = useDispatch();
   const { organization } = useSelector((s) => s.organization);
@@ -102,13 +104,13 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
   };
 
   const subForm = useMemo(() => {
-    switch (baseInputs.marketplace_type) {
+    switch (marketplace_type) {
       case MarketplaceEnum.wildberries:
-        return <ConnectionInputWb isEdit onSetInput={setValue} />;
+        return <ConnectionInputWb isEdit={isEdit} onSetInput={setValue} />;
       case MarketplaceEnum.avito:
-        return <ConnectionInputAvito isEdit onSetInput={setValue} />;
+        return <ConnectionInputAvito isEdit={isEdit} onSetInput={setValue} />;
     }
-  }, [baseInputs.marketplace_type]);
+  }, [marketplace_type]);
 
   const purchaseTariffHandler = async () => {
     try {
@@ -143,16 +145,18 @@ export const ConectionInputs = ({ onClose, baseInputs }: Props) => {
         }}
       />
       {subForm}
-      <Grid item xs={12}>
-        <Button
-          variant="contained"
-          fullWidth
-          onClick={submitHandler}
-          disabled={!accessTypes.includes(value.project.marketplace_type as MarketplaceEnum)}
-        >
-          <FormattedMessage id="save" />
-        </Button>
-      </Grid>
+      {isEdit && (
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={submitHandler}
+            disabled={!accessTypes.includes(value.project.marketplace_type as MarketplaceEnum)}
+          >
+            <FormattedMessage id="save" />
+          </Button>
+        </Grid>
+      )}
     </>
   );
 };
