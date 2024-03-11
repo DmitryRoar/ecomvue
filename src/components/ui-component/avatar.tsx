@@ -9,25 +9,6 @@ type Props = {
 };
 
 export const RRAvatar = ({ src, alt, size, isRounded = true, ...props }: Props & ImageProps) => {
-  // return src ? (
-  //   <img
-  //     {...props}
-  //     src={src ?? ''}
-  //     alt={alt ?? 'whoops'}
-  //     aria-hidden="true"
-  //     width={size}
-  //     height={size}
-  //     style={{ ...props.style, borderRadius: isRounded ? '50px' : 'initial' }}
-  //   />
-  // ) : (
-  //   <Avatar
-  //     {...props}
-  //     style={{ ...props.style, margin: '0 auto', width: size, height: size, borderRadius: isRounded ? '50px' : 'initial' }}
-  //   >
-  //     A
-  //   </Avatar>
-  // );
-
   return src ? (
     <Image
       {...props}

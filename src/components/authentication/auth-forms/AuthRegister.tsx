@@ -5,19 +5,19 @@ import React, { SyntheticEvent, useState } from 'react';
 
 // material-ui
 import {
-    Box,
-    Button,
-    Checkbox,
-    Dialog,
-    FormControl,
-    FormControlLabel,
-    FormHelperText,
-    Grid,
-    IconButton,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Typography
+  Box,
+  Button,
+  Checkbox,
+  Dialog,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  Grid,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+  Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
@@ -25,11 +25,8 @@ import { useTheme } from '@mui/material/styles';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-// project imports
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
-// types
-// assets
 import CloseIcon from '@mui/icons-material/Close';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
