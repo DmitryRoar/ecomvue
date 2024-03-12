@@ -143,9 +143,10 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
   const onUpdateUser = async (data: Partial<IUserDataAPI>): Promise<void> => {
     try {
       const { data: userData } = await axios.patch('/v1/users/self/', data);
+      const imageWoOrigin = user?.image ? CoreUtils.imageWoOrigin(user.image) : null;
       dispatch({
         type: UPDATE_USER_PERSONAL,
-        payload: { partUser: userData }
+        payload: { partUser: { ...userData, image: imageWoOrigin } }
       });
     } catch (err) {
       console.log(err);
