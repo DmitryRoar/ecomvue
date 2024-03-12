@@ -14,20 +14,16 @@ import TabPanel from '@mui/lab/TabPanel';
 import ProfileEditDetails from 'components/profile/information/edit-details';
 import { ProfileServices } from 'components/profile/information/services';
 import ProfileSummary from 'components/profile/information/summary';
-import useAuth from 'hooks/useAuth';
 import { useIntl } from 'react-intl';
 import { useDispatch } from 'store';
 import { UserSlice } from 'store/slices';
-import { openSnackbar } from 'store/slices/snackbar';
 
 const ProfilePage = () => {
   const theme = useTheme();
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const { user } = useAuth();
-
-  const [value, setValue] = useState<string>(0);
+  const [value, setValue] = useState<string>('0');
 
   const switchTab = useCallback((newValue: string) => {
     setValue(newValue);
