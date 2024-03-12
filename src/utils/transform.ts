@@ -9,3 +9,5 @@ export const hideEmail = (email: string): string => {
     return asterisks + p1.slice(-3) + p2;
   });
 };
+
+export const secretWord = (word: string) => word.replace(/^(.{6}).*/, (_, group1) => group1 + '*'.repeat(word.length - 6));

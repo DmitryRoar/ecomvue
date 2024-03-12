@@ -1,9 +1,10 @@
 import { Autocomplete, Chip, FormControl, Grid, InputLabel, OutlinedInput, SelectChangeEvent, TextField } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useSelector } from 'store';
 import { CreateConnectionWb } from 'types/marketplace';
 import { ProjectPermission } from 'types/project';
+import { TransformUtils } from 'utils';
 import { ConnectionProps } from '.';
 
 export const ConnectionInputWb = ({ value: valueProp, isEdit, onSetInput }: ConnectionProps) => {
@@ -23,6 +24,14 @@ export const ConnectionInputWb = ({ value: valueProp, isEdit, onSetInput }: Conn
     setValue((state: any) => ({ ...state, [prop]: event?.target.value }));
     onSetInput((state: any) => ({ ...state, connection: { ...state.connection, [prop]: event?.target.value } }));
   };
+
+  const defaultValue = useMemo(() => {
+    if (value.permissions.length) {
+      return permissions.filter((permission: ProjectPermission) => value.permissions.some((cur: any) => Number(cur) === permission.type));
+    }
+    return [];
+  }, [permissions, value]);
+  console.log(defaultValue);
 
   return (
     <>
@@ -46,7 +55,7 @@ export const ConnectionInputWb = ({ value: valueProp, isEdit, onSetInput }: Conn
           readOnly={!isEdit}
           disableCloseOnSelect
           options={permissions}
-          defaultValue={[]}
+          value={defaultValue}
           getOptionLabel={(option: ProjectPermission) => option.value}
           onChange={(_, value) => {
             setValue((state) => ({ ...state, permissions: value.map((v) => Number(v.type)) }));
@@ -73,7 +82,7 @@ export const ConnectionInputWb = ({ value: valueProp, isEdit, onSetInput }: Conn
           <OutlinedInput
             readOnly={!isEdit}
             label={intl.formatMessage({ id: 'api-key' })}
-            value={value.token}
+            value={isEdit ? value.token : TransformUtils.secretWord(value.token)}
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'token')}
             type="text"
           />

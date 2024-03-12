@@ -26,7 +26,6 @@ const ProfileAvatarForm = () => {
 
   const cancelHandler = () => {
     setSelectedFile(null);
-    setIsDisabled(true);
   };
 
   const handleFileTrigger = () => {
@@ -57,6 +56,7 @@ const ProfileAvatarForm = () => {
           }
         })
       );
+      setSelectedFile(null);
     } catch (error: any) {
       setSelectedFile(null);
       dispatch(
@@ -75,8 +75,6 @@ const ProfileAvatarForm = () => {
       setIsDisabled(false);
     }
   };
-
-  console.log();
 
   return (
     <Grid container spacing={2}>
@@ -110,7 +108,7 @@ const ProfileAvatarForm = () => {
       <Grid item xs={12} display="flex" gap={1}>
         <Grid item xs={6}>
           <AnimateButton>
-            <Button fullWidth variant="contained" color="error" onClick={cancelHandler} disabled={isDisabled}>
+            <Button fullWidth variant="contained" color="error" onClick={cancelHandler} disabled={isDisabled || !selectedFile}>
               <FormattedMessage id="cancel" />
             </Button>
           </AnimateButton>

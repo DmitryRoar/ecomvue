@@ -30,7 +30,7 @@ export type ConnectionCreate = {
 export type CreateConnectionWb = {
   name: string;
   token: string;
-  permissions: number[];
+  permissions: number[] | string[];
 };
 
 export type CreateConnectionAvito = {

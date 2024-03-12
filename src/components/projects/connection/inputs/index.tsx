@@ -24,6 +24,7 @@ export type ConectionEntityProps = {
   marketplace_type: keyof typeof MarketplaceEnum;
   isEdit?: boolean;
   value?: any;
+  onClose?: () => void;
 };
 
 type Props = {
@@ -88,18 +89,20 @@ export const ConectionInputs = ({ onClose, isEdit, marketplace_type, baseInputs 
       );
     } catch (err: any) {
       setShowPopup(true);
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: err?.message,
-          variant: 'alert',
-          anchorOrigin: { vertical: 'top', horizontal: 'center' },
-          close: false,
-          alert: {
-            color: 'error'
-          }
-        })
-      );
+      if (err.message) {
+        dispatch(
+          openSnackbar({
+            open: true,
+            message: err?.message,
+            variant: 'alert',
+            anchorOrigin: { vertical: 'top', horizontal: 'center' },
+            close: false,
+            alert: {
+              color: 'error'
+            }
+          })
+        );
+      }
     }
   };
 
@@ -118,7 +121,7 @@ export const ConectionInputs = ({ onClose, isEdit, marketplace_type, baseInputs 
       dispatch(
         openSnackbar({
           open: true,
-          message: 'Тариф успешно куплен',
+          message: intl.formatMessage({ id: 'tariff-purchased' }),
           variant: 'alert',
           anchorOrigin: { vertical: 'top', horizontal: 'center' },
           close: false,

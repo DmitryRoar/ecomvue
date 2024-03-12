@@ -22,12 +22,6 @@ const slice = createSlice({
   name: 'marketplace',
   initialState,
   reducers: {
-    addTypes(state, action) {
-      state.types = action.payload;
-    },
-    addProject(state, action) {
-      state.projects.push(action.payload);
-    },
     addConnection(state, action) {
       state.projects = state.projects.map((s) => {
         if (s.id === action.payload.marketplace_id) {
@@ -118,6 +112,11 @@ export const createAvitoConnection = createAsyncThunk('users/createAvitoConnecti
   } catch (err) {
     return rejectWithValue(err);
   }
+});
+
+export const removeWbConnection = createAsyncThunk('users/removeWbConnection', async () => {
+  const { data } = await axios.get('/v1/marketplaces/wb/permissions');
+  return data;
 });
 
 export const { addConnection } = slice.actions;

@@ -163,15 +163,15 @@ export const JWTProvider = ({ children }: PropsWithChildren) => {
   };
 
   const onLogout = (): void => {
-    dispatch({
-      type: LOGOUT
-    });
     setToken(null);
     for (let key in localStorage) {
       if (key !== 'berry-config-ts') {
         localStorage.removeItem(key);
       }
     }
+    dispatch({
+      type: LOGOUT
+    });
   };
 
   return (
