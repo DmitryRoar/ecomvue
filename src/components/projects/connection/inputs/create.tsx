@@ -1,6 +1,5 @@
-import { ConectionEntityProps } from '.';
-
-export const CreateConnection = ({ marketplace_type }: ConectionEntityProps) => {
+// { marketplace_type }: ConectionEntityProps
+export const CreateConnection = () => {
   // return <ConectionInputs />;
   return <></>;
 };
