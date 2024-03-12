@@ -1,3 +1,3 @@
-import * as CoreRef from './core';
+import * as WindowRef from './window';
 
-export { CoreRef };
+export { WindowRef };

@@ -18,7 +18,7 @@ import {
 
 import { useFormik } from 'formik';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { CoreRef } from 'refs';
+import { WindowRef } from 'refs';
 import { dispatch, useSelector } from 'store';
 import { ReferalSlice } from 'store/slices';
 import { openSnackbar } from 'store/slices/snackbar';
@@ -61,7 +61,7 @@ const UserAdd = ({ open, handleCloseDialog }: UsersAddProps) => {
           obj: values.obj ? 'market' : 'org'
         })
       ).unwrap();
-      navigator.clipboard.writeText(`${CoreRef.origin}/auth/register?ref=${link}`);
+      navigator.clipboard.writeText(`${WindowRef.origin}/auth/register?ref=${link}`);
       dispatch(
         openSnackbar({
           open: true,

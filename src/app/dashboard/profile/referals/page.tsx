@@ -5,13 +5,12 @@ import { Button, Grid, Tooltip, Typography } from '@mui/material';
 import { Stack } from '@mui/system';
 import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { WindowRef } from 'refs';
 import { useDispatch, useSelector } from 'store';
 import { gridSpacing } from 'store/constant';
 import { ReferalSlice } from 'store/slices';
 import { openSnackbar } from 'store/slices/snackbar';
 import MainCard from 'ui-component/cards/MainCard';
-
-const origin = typeof window !== 'undefined' && window.location.origin ? window.location.origin : '';
 
 const Referals = () => {
   const intl = useIntl();
@@ -30,7 +29,7 @@ const Referals = () => {
   }, []);
 
   const copyClipboardHandler = () => {
-    navigator.clipboard.writeText(`${origin}/auth/register?ref=${promotion}`);
+    navigator.clipboard.writeText(`${WindowRef.origin}/auth/register?ref=${promotion}`);
     dispatch(
       openSnackbar({
         open: true,
