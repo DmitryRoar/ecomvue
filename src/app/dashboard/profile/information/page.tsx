@@ -27,7 +27,7 @@ const ProfilePage = () => {
 
   const { user } = useAuth();
 
-  const [value, setValue] = useState<string>(user?.first_name ? '0' : '1');
+  const [value, setValue] = useState<string>(0);
 
   const switchTab = useCallback((newValue: string) => {
     setValue(newValue);
@@ -47,23 +47,6 @@ const ProfilePage = () => {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
-
-  useEffect(() => {
-    if (user && !user?.first_name) {
-      dispatch(
-        openSnackbar({
-          open: true,
-          message: 'Для продолжения необходимо заполнить поле "Имя"',
-          variant: 'alert',
-          anchorOrigin: { vertical: 'top', horizontal: 'right' },
-          close: false,
-          alert: {
-            color: 'error'
-          }
-        })
-      );
-    }
-  }, [user, dispatch]);
 
   return (
     <MainCard>
@@ -106,9 +89,9 @@ const ProfilePage = () => {
                 }
               }}
             >
-              <Tab label={intl.formatMessage({ id: 'profile' })} value="0" disabled={!user?.first_name} />
+              <Tab label={intl.formatMessage({ id: 'profile' })} value="0" />
               <Tab label={intl.formatMessage({ id: 'information' })} value="1" />
-              <Tab label={intl.formatMessage({ id: 'services' })} value="2" disabled={!user?.first_name} />
+              <Tab label={intl.formatMessage({ id: 'services' })} value="2" />
             </Tabs>
             <TabPanel value="0">
               <ProfileSummary onSwitchTab={switchTab} />

@@ -23,7 +23,7 @@ const config: ConfigProps = {
   outlinedFilled: true,
   navType: 'light', // light, dark
   presetColor: 'default', // default, theme1, theme2, theme3, theme4, theme5, theme6
-  locale: 'en', // 'en' - English, 'fr' - French, 'ro' - Romanian, 'zh' - Chinese
+  locale: 'en',
   rtlLayout: false,
   container: false
 };

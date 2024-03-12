@@ -1,15 +1,12 @@
 'use client';
 import { createContext, ReactNode } from 'react';
 
-// project import
 import defaultConfig from 'config';
 import useLocalStorage from 'hooks/useLocalStorage';
 
-// types
 import { PaletteMode } from '@mui/material';
 import { CustomizationProps } from 'types/config';
 
-// initial state
 const initialState: CustomizationProps = {
   ...defaultConfig,
   onChangeLayout: () => {},
@@ -25,16 +22,16 @@ const initialState: CustomizationProps = {
   onReset: () => {}
 };
 
-// ==============================|| CONFIG CONTEXT & PROVIDER ||============================== //
-
 const ConfigContext = createContext(initialState);
 
 type ConfigProviderProps = {
   children: ReactNode;
 };
 
+const STORAGE_KEY = 'berry-config-ts';
+
 function ConfigProvider({ children }: ConfigProviderProps) {
-  const [config, setConfig] = useLocalStorage('berry-config-ts', {
+  const [config, setConfig] = useLocalStorage(STORAGE_KEY, {
     layout: initialState.layout,
     drawerType: initialState.drawerType,
     fontFamily: initialState.fontFamily,
@@ -42,7 +39,7 @@ function ConfigProvider({ children }: ConfigProviderProps) {
     outlinedFilled: initialState.outlinedFilled,
     navType: initialState.navType,
     presetColor: initialState.presetColor,
-    locale: initialState.locale,
+    locale: window.navigator.language.split('-')[0] || initialState.locale,
     rtlLayout: initialState.rtlLayout
   });
 
