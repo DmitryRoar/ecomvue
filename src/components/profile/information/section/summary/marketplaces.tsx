@@ -28,7 +28,7 @@ export const ProfileSectionMarketplaces = () => {
               <Grid item key={idx}>
                 <Chip
                   label={NormalizeUtils.marketplaceType(marketplace.name as keyof typeof MarketplaceEnum, types)}
-                  style={theme.typography.h4}
+                  style={{ fontWeight: theme.typography.fontWeightBold }}
                   size="medium"
                   color={ColorUtils.getRandomChip()}
                 />

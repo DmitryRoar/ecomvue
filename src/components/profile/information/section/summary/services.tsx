@@ -23,7 +23,12 @@ export const ProfileSectionServices = () => {
         <Grid container spacing={gridSpacing}>
           {services.map((service, idx) => (
             <Grid item key={idx}>
-              <Chip label={service.name} style={theme.typography.h4} size="medium" color={ColorUtils.getRandomChip()} />
+              <Chip
+                label={service.name}
+                style={{ fontWeight: theme.typography.fontWeightBold }}
+                size="medium"
+                color={ColorUtils.getRandomChip()}
+              />
             </Grid>
           ))}
         </Grid>
