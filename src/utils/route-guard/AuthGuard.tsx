@@ -14,23 +14,32 @@ const AuthGuard = ({ children }: PropsWithChildren): JSX.Element => {
   const pathname = usePathname();
 
   const tokens = JSON.parse(localStorage.getItem(StorageNames.token) as string);
-  const confirmMail = JSON.parse(localStorage.getItem(StorageNames.confirmMail) as string);
-  const { loading } = useAuth();
+  const { loading, confirmMail } = useAuth();
+
+  const isAuth = tokens && !confirmMail;
 
   useEffect(() => {
-    const isAuth = tokens && !confirmMail;
+    if (confirmMail) {
+      router.replace('/auth/code-verification');
+    }
+  }, [confirmMail]);
 
+  useEffect(() => {
     if (isAuth && !pathname.startsWith('/dashboard')) {
       const redirectUrl = searchParams.get('redirect_url');
       router.push(redirectUrl ? `/${redirectUrl}` : '/dashboard');
-    } else if (!isAuth && !pathname.startsWith('/auth')) {
+    }
+  }, [isAuth, pathname, searchParams]);
+
+  useEffect(() => {
+    if (!isAuth && !pathname.startsWith('/auth')) {
       const queryParams = [];
       for (const [key, value] of searchParams.entries()) {
         queryParams.push(`${key}=${value}`);
       }
       router.push(`/auth/login?redirect_url=${pathname.slice(1)}${queryParams.length > 0 ? `?${queryParams}` : ''}`);
     }
-  }, [tokens, confirmMail, pathname, router, searchParams]);
+  }, [isAuth, pathname]);
 
   return loading ? <Loader /> : <>{children}</>;
 };

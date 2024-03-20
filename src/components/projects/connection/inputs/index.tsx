@@ -14,12 +14,13 @@ import { CoreUtils } from 'utils';
 import { ConnectionInputAvito } from './avito';
 import { ConnectionInputWb } from './wb';
 
+// GOD COMPONENT. Sorry :( IDK HOW It's work [DDRR]
+
 export type ConnectionProps = {
   onSetInput: Dispatch<SetStateAction<any>>;
   isEdit?: boolean;
   value?: any;
 };
-
 export type ConectionEntityProps = {
   marketplace_type: keyof typeof MarketplaceEnum;
   isEdit?: boolean;

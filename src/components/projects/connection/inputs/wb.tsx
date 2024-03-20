@@ -82,7 +82,7 @@ export const ConnectionInputWb = ({ value: valueProp, isEdit, onSetInput }: Conn
           <OutlinedInput
             readOnly={!isEdit}
             label={intl.formatMessage({ id: 'api-key' })}
-            value={isEdit ? value.token : TransformUtils.secretWord(value.token)}
+            value={isEdit ? value.token : TransformUtils.secretWord(value?.token)}
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e, 'token')}
             type="text"
           />

@@ -12,7 +12,6 @@ import SubCard from 'ui-component/cards/SubCard';
 
 // assets
 import BusinessTwoToneIcon from '@mui/icons-material/BusinessTwoTone';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import ChatBubbleTwoToneIcon from '@mui/icons-material/ChatBubbleTwoTone';
 import CloudQueueOutlinedIcon from '@mui/icons-material/CloudQueueOutlined';
 import HighlightOffTwoToneIcon from '@mui/icons-material/HighlightOffTwoTone';
@@ -58,7 +57,7 @@ const ProjectDetails = ({ project, onClose }: Props) => {
   // useEffect(() => {
   //   setShowAddInputs(false);
   // }, [project]);
-  console.log(project);
+  console.log('project: ', project);
 
   return (
     <ElevationScroll>
@@ -79,7 +78,7 @@ const ProjectDetails = ({ project, onClose }: Props) => {
                 <Grid container spacing={1}>
                   <Grid item xs={12}>
                     <Typography variant="h5" component="div" sx={{ fontSize: '1rem' }}>
-                      das
+                      {project.name}
                     </Typography>
                   </Grid>
                 </Grid>
@@ -95,8 +94,8 @@ const ProjectDetails = ({ project, onClose }: Props) => {
             <Grid container spacing={1}>
               <Grid item xs={6}>
                 {isEdit ? (
-                  <Button variant="outlined" color="error" onClick={() => setIsEdit(false)} fullWidth startIcon={<CancelOutlinedIcon />}>
-                    <FormattedMessage id="cancel" />
+                  <Button variant="outlined" color="success" onClick={() => setIsEdit(false)} fullWidth>
+                    <FormattedMessage id="save" />
                   </Button>
                 ) : (
                   <Button
@@ -111,9 +110,21 @@ const ProjectDetails = ({ project, onClose }: Props) => {
                 )}
               </Grid>
               <Grid item xs={6}>
-                <Button variant="outlined" fullWidth disabled startIcon={<NotInterestedTwoToneIcon />}>
-                  <FormattedMessage id="remove" />
-                </Button>
+                {isEdit ? (
+                  <Button
+                    variant="outlined"
+                    color="error"
+                    onClick={() => setIsEdit(false)}
+                    fullWidth
+                    startIcon={<NotInterestedTwoToneIcon />}
+                  >
+                    <FormattedMessage id="cancel" />
+                  </Button>
+                ) : (
+                  <Button variant="outlined" color="error" fullWidth disabled startIcon={<NotInterestedTwoToneIcon />}>
+                    <FormattedMessage id="remove" />
+                  </Button>
+                )}
               </Grid>
             </Grid>
           </Grid>
@@ -122,7 +133,9 @@ const ProjectDetails = ({ project, onClose }: Props) => {
             <Divider />
           </Grid>
 
-          <ReadConnection isEdit={isEdit} value={project.connections[0]} marketplace_type={project.marketplace_type} />
+          {project.connections[0] && (
+            <ReadConnection isEdit={isEdit} value={project.connections[0]} marketplace_type={project.marketplace_type} />
+          )}
 
           <Grid item xs={12}>
             <Grid container spacing={1}>

@@ -28,7 +28,6 @@ const AuthForgotPassword = ({ onSended }: Props) => {
   const submitHandler = async ({ email }: { email: string }) => {
     try {
       await axios.post('/v1/users/password-reset/send-email/', { email });
-      // router.push(`/auth/code-verification?email=${email}`);
       onSended();
     } catch (err: any) {
       console.log(err);

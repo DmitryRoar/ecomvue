@@ -113,7 +113,7 @@ const JWTRegister = ({ ...others }) => {
               dispatch(
                 openSnackbar({
                   open: true,
-                  message: err?.detail,
+                  message: Object.values(err)[0],
                   variant: 'alert',
                   anchorOrigin: { vertical: 'top', horizontal: 'center' },
                   close: false,
